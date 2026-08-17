@@ -1,5 +1,12 @@
 <resources>
-    <string name="app_name">مخزن الجرد</string>
+    <!--
+      Arabic is the DEFAULT resource set, not a translation: it ships in values/ so it is
+      what every device shows regardless of locale. English lives in values-en/ for
+      developers and English-speaking staff. Both files must keep identical key sets.
+    -->
+    <string name="app_name">راصد</string>
+    <string name="app_tagline">نظام إدارة المخزون</string>
+    <string name="app_full_name">راصد — إدارة المخزون</string>
 
     <!-- Auth -->
     <string name="login">تسجيل الدخول</string>
@@ -10,6 +17,9 @@
     <string name="login_subtitle">سجّل الدخول لإدارة المخزون</string>
     <string name="error_invalid_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة</string>
     <string name="error_empty_fields">يرجى تعبئة جميع الحقول</string>
+    <string name="error_invalid_email">صيغة البريد الإلكتروني غير صحيحة</string>
+    <string name="show_password">إظهار كلمة المرور</string>
+    <string name="hide_password">إخفاء كلمة المرور</string>
 
     <!-- Roles -->
     <string name="role_admin">مدير</string>
@@ -21,12 +31,32 @@
     <string name="total_quantity">إجمالي الكمية</string>
     <string name="low_stock">مخزون منخفض</string>
     <string name="out_today">صرف اليوم</string>
+    <string name="in_today">استلام اليوم</string>
+    <string name="inventory_value">قيمة المخزون</string>
+    <string name="warehouses_count">عدد المخازن</string>
+    <string name="quick_actions">إجراءات سريعة</string>
+    <string name="recent_transactions">أحدث الحركات</string>
+    <string name="low_stock_products">منتجات بمخزون منخفض</string>
+    <string name="view_all">عرض الكل</string>
+    <string name="greeting_admin">مدير النظام</string>
+
+    <!-- Menu -->
     <string name="menu_products">المنتجات</string>
     <string name="menu_stock_out">صرف مخزون</string>
+    <string name="menu_stock_in">استلام مخزون</string>
+    <string name="menu_adjustment">تسوية المخزون</string>
+    <string name="menu_transfer">تحويل بين المخازن</string>
     <string name="menu_inventory">الجرد</string>
     <string name="menu_categories">الفئات</string>
     <string name="menu_users">المستخدمون</string>
-    <string name="menu_history">سجل الصرف</string>
+    <string name="menu_history">سجل الحركات</string>
+    <string name="menu_suppliers">المورّدون</string>
+    <string name="menu_employees">الموظفون</string>
+    <string name="menu_warehouses">المخازن</string>
+    <string name="menu_audit_log">سجل التدقيق</string>
+    <string name="menu_reports">التقارير</string>
+    <string name="menu_settings">الإعدادات</string>
+    <string name="menu_scan">مسح باركود</string>
 
     <!-- Products -->
     <string name="products">المنتجات</string>
@@ -34,9 +64,10 @@
     <string name="edit_product">تعديل المنتج</string>
     <string name="delete_product">حذف المنتج</string>
     <string name="product_name">اسم المنتج</string>
+    <string name="product_id">رقم المنتج</string>
     <string name="category">الفئة</string>
     <string name="quantity">الكمية</string>
-    <string name="warehouse_location">موقع المخزن</string>
+    <string name="warehouse_location">الموقع داخل المخزن</string>
     <string name="notes">ملاحظات</string>
     <string name="product_photo">صورة المنتج</string>
     <string name="take_photo">التقاط صورة</string>
@@ -45,52 +76,318 @@
     <string name="cancel">إلغاء</string>
     <string name="delete">حذف</string>
     <string name="edit">تعديل</string>
+    <string name="confirm">تأكيد</string>
     <string name="confirm_delete">هل تريد حذف هذا المنتج؟</string>
     <string name="low_stock_threshold">حد المخزون المنخفض</string>
     <string name="no_products">لا توجد منتجات بعد</string>
     <string name="select_category">اختر الفئة</string>
+    <string name="no_category">بدون فئة</string>
+    <string name="sku">رمز المنتج (SKU)</string>
+    <string name="barcode">الباركود</string>
+    <string name="unit">وحدة القياس</string>
+    <string name="purchase_cost">سعر الشراء</string>
+    <string name="selling_price">سعر البيع</string>
+    <string name="initial_quantity">الكمية الافتتاحية</string>
+    <string name="initial_warehouse">المخزن الافتتاحي</string>
+    <string name="opening_balance">الرصيد الافتتاحي</string>
+    <string name="section_identification">تعريف المنتج</string>
+    <string name="section_stock">المخزون</string>
+    <string name="section_pricing">التسعير (اختياري)</string>
+    <string name="section_details">تفاصيل إضافية</string>
+    <string name="error_duplicate_sku">رمز المنتج مستخدم مسبقاً لمنتج آخر</string>
+    <string name="error_duplicate_barcode">الباركود مستخدم مسبقاً لمنتج آخر</string>
+    <string name="stock_edit_hint">لا يمكن تعديل الكمية من هنا. استخدم الاستلام أو الصرف أو التسوية لتسجيل أي تغيير.</string>
+    <string name="stock_by_warehouse">التوزيع على المخازن</string>
+
+    <!-- Units -->
+    <string name="unit_piece">قطعة</string>
+    <string name="unit_box">علبة</string>
+    <string name="unit_carton">كرتون</string>
+    <string name="unit_pack">حزمة</string>
+    <string name="unit_meter">متر</string>
+    <string name="unit_kilogram">كيلوجرام</string>
+    <string name="unit_liter">لتر</string>
 
     <!-- Categories -->
     <string name="categories">الفئات</string>
     <string name="add_category">إضافة فئة</string>
+    <string name="edit_category">تعديل الفئة</string>
     <string name="category_name">اسم الفئة</string>
     <string name="no_categories">لا توجد فئات بعد</string>
-    <string name="confirm_delete_category">هل تريد حذف هذه الفئة؟</string>
+    <string name="confirm_delete_category">هل تريد حذف هذه الفئة؟ المنتجات المرتبطة بها لن تُحذف.</string>
+    <string name="error_duplicate_category">اسم الفئة موجود مسبقاً</string>
 
     <!-- Inventory -->
     <string name="inventory">الجرد</string>
     <string name="search">بحث</string>
-    <string name="search_hint">ابحث بالاسم أو الفئة</string>
+    <string name="search_hint">ابحث بالاسم أو الفئة أو الباركود</string>
     <string name="current_quantity">الكمية الحالية</string>
     <string name="all_categories">كل الفئات</string>
+    <string name="all_warehouses">كل المخازن</string>
+    <string name="filter_low_stock_only">المخزون المنخفض فقط</string>
+    <string name="no_results">لا توجد نتائج مطابقة</string>
 
     <!-- Stock Out -->
     <string name="stock_out">صرف مخزون</string>
     <string name="quantity_removed">الكمية المصروفة</string>
-    <string name="employee_name">اسم الموظف</string>
+    <string name="employee_name">الموظف</string>
     <string name="date">التاريخ</string>
     <string name="confirm_stock_out">تأكيد الصرف</string>
     <string name="select_product">اختر المنتج</string>
     <string name="available">المتاح</string>
     <string name="error_insufficient_stock">الكمية المطلوبة أكبر من المتاح</string>
-    <string name="error_invalid_quantity">أدخل كمية صحيحة</string>
+    <string name="error_invalid_quantity">أدخل كمية صحيحة أكبر من صفر</string>
     <string name="stock_out_success">تم الصرف بنجاح</string>
-    <string name="history">سجل الصرف</string>
-    <string name="no_history">لا يوجد سجل صرف</string>
+
+    <!-- Stock In -->
+    <string name="stock_in">استلام مخزون</string>
+    <string name="quantity_received">الكمية المستلمة</string>
+    <string name="supplier">المورّد</string>
+    <string name="select_supplier">اختر المورّد</string>
+    <string name="invoice_number">رقم الفاتورة / الشحنة</string>
+    <string name="confirm_stock_in">تأكيد الاستلام</string>
+    <string name="stock_in_success">تم الاستلام بنجاح</string>
+    <string name="new_balance_preview">الرصيد بعد العملية</string>
+
+    <!-- Stock Adjustment -->
+    <string name="stock_adjustment">تسوية المخزون</string>
+    <string name="system_quantity">الكمية في النظام</string>
+    <string name="physical_quantity">الكمية الفعلية</string>
+    <string name="difference">الفرق</string>
+    <string name="adjustment_reason">سبب التسوية</string>
+    <string name="select_reason">اختر السبب</string>
+    <string name="confirm_adjustment">تأكيد التسوية</string>
+    <string name="adjustment_success">تم تسجيل التسوية بنجاح</string>
+    <string name="error_no_change">الكمية الفعلية مطابقة للنظام، لا حاجة للتسوية</string>
+    <string name="error_reason_required">يرجى اختيار سبب التسوية</string>
+    <string name="adjustment_hint">أدخل الكمية التي تم عدّها فعلياً في المخزن، وسيحسب النظام الفرق تلقائياً.</string>
+
+    <!-- Adjustment reasons -->
+    <string name="reason_damaged">تالف</string>
+    <string name="reason_lost">مفقود</string>
+    <string name="reason_counting_error">خطأ في الجرد</string>
+    <string name="reason_manual_correction">تصحيح يدوي</string>
+    <string name="reason_other">أخرى</string>
+
+    <!-- Stock Transfer -->
+    <string name="stock_transfer">تحويل بين المخازن</string>
+    <string name="from_warehouse">من مخزن</string>
+    <string name="to_warehouse">إلى مخزن</string>
+    <string name="quantity_transferred">الكمية المحوّلة</string>
+    <string name="confirm_transfer">تأكيد التحويل</string>
+    <string name="transfer_success">تم التحويل بنجاح</string>
+    <string name="error_same_warehouse">لا يمكن التحويل إلى نفس المخزن</string>
+    <string name="error_need_two_warehouses">تحتاج إلى مخزنين على الأقل لإجراء تحويل</string>
+
+    <!-- History -->
+    <string name="history">سجل الحركات</string>
+    <string name="no_history">لا توجد حركات مسجلة</string>
+    <string name="transaction_type">نوع الحركة</string>
+    <string name="transaction_stock_in">استلام</string>
+    <string name="transaction_stock_out">صرف</string>
+    <string name="transaction_adjustment">تسوية</string>
+    <string name="transaction_transfer_out">تحويل صادر</string>
+    <string name="transaction_transfer_in">تحويل وارد</string>
+    <string name="previous_stock">الرصيد السابق</string>
+    <string name="new_stock">الرصيد الجديد</string>
+    <string name="all_types">كل الأنواع</string>
+    <string name="filters">التصفية</string>
+    <string name="clear_filters">إزالة التصفية</string>
+    <string name="date_from">من تاريخ</string>
+    <string name="date_to">إلى تاريخ</string>
+    <string name="date_range">الفترة</string>
+    <string name="unknown_value">—</string>
+    <string name="history_search_hint">ابحث بالمنتج أو الموظف أو الفاتورة</string>
+    <string name="recorded_by">سجّلها</string>
+    <string name="warehouse">المخزن</string>
+
+    <!-- Suppliers -->
+    <string name="suppliers">المورّدون</string>
+    <string name="add_supplier">إضافة مورّد</string>
+    <string name="edit_supplier">تعديل المورّد</string>
+    <string name="supplier_name">اسم المورّد</string>
+    <string name="phone">الهاتف</string>
+    <string name="address">العنوان</string>
+    <string name="no_suppliers">لا يوجد مورّدون بعد</string>
+    <string name="confirm_delete_supplier">هل تريد حذف هذا المورّد؟ الحركات السابقة ستبقى محفوظة.</string>
+    <string name="error_duplicate_supplier">اسم المورّد موجود مسبقاً</string>
+    <string name="supplier_search_hint">ابحث بالاسم أو الهاتف أو البريد</string>
+    <string name="supplier_details">بيانات المورّد</string>
+
+    <!-- Employees -->
+    <string name="employees">الموظفون</string>
+    <string name="add_employee">إضافة موظف</string>
+    <string name="edit_employee">تعديل الموظف</string>
+    <string name="employee_code">الرقم الوظيفي</string>
+    <string name="department">القسم</string>
+    <string name="no_employees">لا يوجد موظفون بعد</string>
+    <string name="confirm_delete_employee">هل تريد حذف هذا الموظف؟ الحركات السابقة ستبقى محفوظة.</string>
+    <string name="error_duplicate_employee_code">الرقم الوظيفي مستخدم مسبقاً</string>
+    <string name="employee_search_hint">ابحث بالاسم أو الرقم أو القسم</string>
+    <string name="employee_active">موظف حالي</string>
+    <string name="employee_inactive">غير نشط</string>
+    <string name="select_employee">اختر الموظف</string>
+    <string name="employees_hint">الموظفون هم من يستلمون أو يصرفون المخزون فعلياً، وهم منفصلون عن مستخدمي التطبيق.</string>
+
+    <!-- Warehouses -->
+    <string name="warehouses">المخازن</string>
+    <string name="add_warehouse">إضافة مخزن</string>
+    <string name="edit_warehouse">تعديل المخزن</string>
+    <string name="warehouse_name">اسم المخزن</string>
+    <string name="warehouse_code">رمز المخزن</string>
+    <string name="location">الموقع</string>
+    <string name="no_warehouses">لا توجد مخازن بعد</string>
+    <string name="confirm_delete_warehouse">هل تريد حذف هذا المخزن؟</string>
+    <string name="error_duplicate_warehouse_code">رمز المخزن مستخدم مسبقاً</string>
+    <string name="error_warehouse_not_empty">لا يمكن حذف مخزن يحتوي على مخزون. حوّل الكميات أو اصرفها أولاً.</string>
+    <string name="error_last_warehouse">لا يمكن حذف المخزن الأخير</string>
+    <string name="default_warehouse">المخزن الافتراضي</string>
+    <string name="set_as_default">تعيين كافتراضي</string>
+    <string name="select_warehouse">اختر المخزن</string>
+    <string name="warehouse_search_hint">ابحث بالاسم أو الرمز أو الموقع</string>
+    <string name="items_count">عدد الأصناف</string>
 
     <!-- Users -->
     <string name="users">المستخدمون</string>
     <string name="add_user">إضافة مستخدم</string>
+    <string name="edit_user">تعديل المستخدم</string>
+    <string name="user_name">الاسم</string>
     <string name="user_role">الصلاحية</string>
     <string name="no_users">لا يوجد مستخدمون</string>
     <string name="confirm_delete_user">هل تريد حذف هذا المستخدم؟</string>
     <string name="error_email_exists">البريد الإلكتروني مستخدم مسبقاً</string>
+    <string name="error_password_too_short">كلمة المرور يجب أن تكون 6 أحرف على الأقل</string>
+    <string name="error_last_admin">لا يمكن حذف أو تغيير صلاحية المدير الأخير</string>
+    <string name="error_delete_self">لا يمكنك حذف حسابك الحالي</string>
+    <string name="new_password_optional">كلمة مرور جديدة (اتركها فارغة للإبقاء على الحالية)</string>
+
+    <!-- Audit log -->
+    <string name="audit_log">سجل التدقيق</string>
+    <string name="no_audit_entries">لا توجد سجلات تدقيق</string>
+    <string name="audit_search_hint">ابحث بالمستخدم أو العنصر</string>
+    <string name="audit_action">الإجراء</string>
+    <string name="audit_target">العنصر</string>
+    <string name="audit_user">المستخدم</string>
+    <string name="all_actions">كل الإجراءات</string>
+    <string name="audit_login">تسجيل دخول</string>
+    <string name="audit_logout">تسجيل خروج</string>
+    <string name="audit_product_created">إضافة منتج</string>
+    <string name="audit_product_edited">تعديل منتج</string>
+    <string name="audit_product_deleted">حذف منتج</string>
+    <string name="audit_category_created">إضافة فئة</string>
+    <string name="audit_category_edited">تعديل فئة</string>
+    <string name="audit_category_deleted">حذف فئة</string>
+    <string name="audit_user_created">إضافة مستخدم</string>
+    <string name="audit_user_edited">تعديل مستخدم</string>
+    <string name="audit_user_deleted">حذف مستخدم</string>
+    <string name="audit_supplier_created">إضافة مورّد</string>
+    <string name="audit_supplier_edited">تعديل مورّد</string>
+    <string name="audit_supplier_deleted">حذف مورّد</string>
+    <string name="audit_employee_created">إضافة موظف</string>
+    <string name="audit_employee_edited">تعديل موظف</string>
+    <string name="audit_employee_deleted">حذف موظف</string>
+    <string name="audit_warehouse_created">إضافة مخزن</string>
+    <string name="audit_warehouse_edited">تعديل مخزن</string>
+    <string name="audit_warehouse_deleted">حذف مخزن</string>
+    <string name="audit_stock_in">استلام مخزون</string>
+    <string name="audit_stock_out">صرف مخزون</string>
+    <string name="audit_stock_adjustment">تسوية مخزون</string>
+    <string name="audit_stock_transfer">تحويل مخزون</string>
+    <string name="audit_backup_created">إنشاء نسخة احتياطية</string>
+    <string name="audit_backup_restored">استعادة نسخة احتياطية</string>
+    <string name="audit_permission_denied">محاولة غير مصرّح بها</string>
+
+    <!-- Reports -->
+    <string name="reports">التقارير</string>
+    <string name="report_current_inventory">المخزون الحالي</string>
+    <string name="report_low_stock">المخزون المنخفض</string>
+    <string name="report_stock_in">حركات الاستلام</string>
+    <string name="report_stock_out">حركات الصرف</string>
+    <string name="report_adjustments">التسويات</string>
+    <string name="report_movement">حركة المخزون</string>
+    <string name="report_top_issued">أكثر المنتجات صرفاً</string>
+    <string name="report_daily_activity">النشاط اليومي</string>
+    <string name="report_monthly_activity">النشاط الشهري</string>
+    <string name="report_options">خيارات التقرير</string>
+    <string name="generate_report">إنشاء التقرير</string>
+    <string name="export_csv">تصدير Excel / CSV</string>
+    <string name="export_pdf">تصدير PDF</string>
+    <string name="exporting">جارٍ التصدير…</string>
+    <string name="export_success">تم إنشاء الملف</string>
+    <string name="export_failed">تعذّر إنشاء الملف</string>
+    <string name="export_empty">لا توجد بيانات للتصدير</string>
+    <string name="share_file">مشاركة الملف</string>
+    <string name="rows_count">عدد السجلات</string>
+    <string name="report_period">الفترة</string>
+    <string name="period_today">اليوم</string>
+    <string name="period_last_7">آخر 7 أيام</string>
+    <string name="period_last_30">آخر 30 يوماً</string>
+    <string name="period_this_month">هذا الشهر</string>
+    <string name="period_all">كل الفترات</string>
+    <string name="report_generated_at">تاريخ الإنشاء</string>
+    <string name="total">الإجمالي</string>
+    <string name="count">العدد</string>
+
+    <!-- Scanner -->
+    <string name="scan_barcode">مسح الباركود</string>
+    <string name="scanner_hint">وجّه الكاميرا نحو الباركود أو رمز QR</string>
+    <string name="scanner_torch">الإضاءة</string>
+    <string name="camera_permission_required">إذن الكاميرا مطلوب</string>
+    <string name="camera_permission_rationale">يحتاج التطبيق إلى الكاميرا لمسح الباركود وتحديد المنتج.</string>
+    <string name="camera_permission_denied_hint">تم رفض إذن الكاميرا. يمكنك السماح به من إعدادات التطبيق.</string>
+    <string name="grant_permission">السماح</string>
+    <string name="error_barcode_not_found">لا يوجد منتج بهذا الباركود</string>
+    <string name="barcode_scanned">تم قراءة الباركود</string>
+    <string name="scan_to_fill">مسح لتعبئة الحقل</string>
+
+    <!-- Settings / Backup -->
+    <string name="settings">الإعدادات</string>
+    <string name="theme">المظهر</string>
+    <string name="backup_restore">النسخ الاحتياطي والاستعادة</string>
+    <string name="backup_database">إنشاء نسخة احتياطية</string>
+    <string name="restore_database">استعادة نسخة احتياطية</string>
+    <string name="backup_description">تحتوي النسخة الاحتياطية على قاعدة البيانات وصور المنتجات.</string>
+    <string name="backup_success">تم إنشاء النسخة الاحتياطية بنجاح</string>
+    <string name="backup_failed">تعذّر إنشاء النسخة الاحتياطية</string>
+    <string name="restore_confirm_title">تأكيد الاستعادة</string>
+    <string name="restore_confirm_message">سيتم استبدال جميع البيانات الحالية بمحتوى النسخة الاحتياطية، ولا يمكن التراجع عن هذه العملية. هل تريد المتابعة؟</string>
+    <string name="restore_success">تمت الاستعادة بنجاح. سيتم إعادة تشغيل التطبيق.</string>
+    <string name="restore_failed">تعذّرت الاستعادة</string>
+    <string name="restore_invalid_file">الملف المحدد ليس نسخة احتياطية صالحة</string>
+    <string name="restore_foreign_file">هذه النسخة الاحتياطية تنتمي إلى تطبيق آخر</string>
+    <string name="restore_too_new">هذه النسخة أُنشئت بإصدار أحدث من التطبيق. يرجى تحديث التطبيق أولاً.</string>
+    <string name="restore_corrupt">الملف تالف أو غير مكتمل</string>
+    <string name="backup_details">أُنشئت في %1$s • إصدار %2$s • %3$s صورة</string>
+    <string name="restart_now">إعادة التشغيل</string>
+    <string name="low_stock_notifications">تنبيهات المخزون المنخفض</string>
+    <string name="low_stock_notifications_desc">إظهار تنبيه عند وصول أي منتج إلى حد المخزون المنخفض.</string>
+    <string name="check_low_stock_now">فحص المخزون المنخفض الآن</string>
+    <string name="notification_permission_needed">يلزم السماح بالإشعارات لإظهار التنبيهات</string>
+    <string name="about">عن التطبيق</string>
+    <string name="about_version">الإصدار</string>
+    <string name="about_description">راصد هو نظام لإدارة مخزون المستودعات: استلام وصرف وتسوية وتحويل بين المخازن، مع سجل كامل للحركات وتقارير قابلة للتصدير.</string>
+    <string name="database_schema_version">إصدار قاعدة البيانات</string>
 
     <!-- Common -->
     <string name="required_field">حقل مطلوب</string>
-    <string name="settings">الإعدادات</string>
-    <string name="theme">المظهر</string>
     <string name="back">رجوع</string>
     <string name="ok">حسناً</string>
+    <string name="close">إغلاق</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="loading">جارٍ التحميل…</string>
     <string name="units">وحدة</string>
+    <string name="optional">اختياري</string>
+    <string name="error_not_authorized">هذه العملية تتطلب صلاحية المدير</string>
+    <string name="error_generic">حدث خطأ غير متوقع</string>
+    <string name="error_invalid_date">التاريخ غير صحيح. لا يمكن اختيار تاريخ مستقبلي.</string>
+    <string name="error_product_not_found">المنتج غير موجود</string>
+    <string name="error_warehouse_not_found">المخزن غير موجود</string>
+    <string name="error_no_warehouse">أضف مخزناً واحداً على الأقل قبل إضافة المنتجات</string>
+    <string name="quantity_with_unit">%1$s %2$s</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_low_stock">تنبيهات المخزون المنخفض</string>
+    <string name="notification_channel_low_stock_desc">تنبيه عند انخفاض كمية أي منتج إلى حدّه الأدنى</string>
+    <string name="notification_low_stock_title">تنبيه: مخزون منخفض</string>
+    <string name="notification_low_stock_text">%1$s — المتبقي %2$s %3$s</string>
 </resources>

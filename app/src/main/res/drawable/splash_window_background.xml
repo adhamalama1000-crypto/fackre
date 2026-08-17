@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Cold-start window background for API < 31.
+
+  This is what fills the window between process start and the first Compose frame. Painting
+  it brand navy with the mark centred removes the white flash a default `windowBackground`
+  produces and makes the handoff to the Compose splash invisible.
+
+  The mark is referenced as a vector item (valid in a layer-list from API 23; minSdk here is
+  24) and given an explicit size, rather than through <bitmap>, which only accepts rasters.
+
+  API 31+ uses the platform splash screen instead; see values-v31/themes.xml.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/brand_navy" />
+    <item
+        android:drawable="@drawable/ic_brand_mark"
+        android:gravity="center"
+        android:width="112dp"
+        android:height="112dp" />
+</layer-list>

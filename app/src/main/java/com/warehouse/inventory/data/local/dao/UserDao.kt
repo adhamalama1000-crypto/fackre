@@ -15,8 +15,18 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
     suspend fun getByEmail(email: String): UserEntity?
 
+    /**
+     * Authoritative role lookup. Permission checks read the role from here rather than
+     * trusting the cached session, so editing the DataStore session cannot grant admin.
+     */
+    @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
+    suspend fun getById(id: Long): UserEntity?
+
     @Query("SELECT * FROM users ORDER BY name COLLATE NOCASE ASC")
     fun observeAll(): Flow<List<UserEntity>>
+
+    @Query("SELECT COUNT(*) FROM users WHERE role = 'ADMIN'")
+    suspend fun adminCount(): Int
 
     @Query("SELECT COUNT(*) FROM users")
     suspend fun count(): Int

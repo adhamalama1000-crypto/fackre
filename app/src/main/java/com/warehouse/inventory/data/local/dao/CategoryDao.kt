@@ -18,6 +18,9 @@ interface CategoryDao {
     @Query("SELECT * FROM categories ORDER BY name COLLATE NOCASE ASC")
     suspend fun getAll(): List<CategoryEntity>
 
+    @Query("SELECT * FROM categories WHERE id = :id LIMIT 1")
+    suspend fun getById(id: Long): CategoryEntity?
+
     @Query("SELECT COUNT(*) FROM categories")
     suspend fun count(): Int
 

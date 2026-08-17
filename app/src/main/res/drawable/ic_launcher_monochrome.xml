@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Monochrome layer for Android 13+ themed icons.
+
+  A themed icon is used as an alpha mask and tinted a single colour by the launcher, so the
+  three cube faces cannot be distinguished by fill colour here — and they cannot be separated
+  by drawing black lines either, since black is just as opaque as white in a mask. Instead
+  each face is inset slightly toward its own centroid, leaving genuinely transparent seams
+  that survive tinting.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Top face -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,28.8 L75.6,41 L54,53.2 L32.4,41 Z" />
+
+    <!-- Left face -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M31.7,42.2 L53.3,54.4 L53.3,78.8 L31.7,66.6 Z" />
+
+    <!-- Right face -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M76.3,42.2 L54.7,54.4 L54.7,78.8 L76.3,66.6 Z" />
+</vector>

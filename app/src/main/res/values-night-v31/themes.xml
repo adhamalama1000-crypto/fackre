@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Dark mode on Android 12+.
+
+  This combination needs its own file: night-mode qualifiers take precedence over version
+  qualifiers, so on an API 31+ device in dark mode `values-night/themes.xml` would win
+  outright and the platform splash-screen attributes declared in `values-v31` would never be
+  applied. Declaring both here — the dark parent and the splash attributes — is what keeps
+  the launch experience identical in light and dark on modern Android.
+-->
+<resources>
+    <style name="Theme.Rasid" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowSplashScreenBackground">@color/brand_navy</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Rasid.Main" parent="Theme.Rasid">
+        <item name="android:windowBackground">#FF101418</item>
+    </style>
+</resources>

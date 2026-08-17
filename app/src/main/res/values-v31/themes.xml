@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 12+ (API 31) draws its own splash screen from these attributes and ignores
+  windowBackground for that purpose, so the branding is declared here instead. Same navy
+  plate and same cube mark as the pre-31 layer-list, which keeps the launch identical across
+  versions.
+
+  windowSplashScreenAnimatedIcon is given the bare cube (not ic_brand_mark) because the
+  platform already draws a circular plate behind it; using the plated mark would nest one
+  rounded shape inside another.
+-->
+<resources>
+    <style name="Theme.Rasid" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowSplashScreenBackground">@color/brand_navy</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Rasid.Main" parent="Theme.Rasid">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+</resources>
