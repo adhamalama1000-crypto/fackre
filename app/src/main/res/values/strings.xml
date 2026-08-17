@@ -1,0 +1,96 @@
+<resources>
+    <string name="app_name">مخزن الجرد</string>
+
+    <!-- Auth -->
+    <string name="login">تسجيل الدخول</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="login_title">مرحباً بك</string>
+    <string name="login_subtitle">سجّل الدخول لإدارة المخزون</string>
+    <string name="error_invalid_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة</string>
+    <string name="error_empty_fields">يرجى تعبئة جميع الحقول</string>
+
+    <!-- Roles -->
+    <string name="role_admin">مدير</string>
+    <string name="role_viewer">مشاهد</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard">لوحة التحكم</string>
+    <string name="total_products">إجمالي المنتجات</string>
+    <string name="total_quantity">إجمالي الكمية</string>
+    <string name="low_stock">مخزون منخفض</string>
+    <string name="out_today">صرف اليوم</string>
+    <string name="menu_products">المنتجات</string>
+    <string name="menu_stock_out">صرف مخزون</string>
+    <string name="menu_inventory">الجرد</string>
+    <string name="menu_categories">الفئات</string>
+    <string name="menu_users">المستخدمون</string>
+    <string name="menu_history">سجل الصرف</string>
+
+    <!-- Products -->
+    <string name="products">المنتجات</string>
+    <string name="add_product">إضافة منتج</string>
+    <string name="edit_product">تعديل المنتج</string>
+    <string name="delete_product">حذف المنتج</string>
+    <string name="product_name">اسم المنتج</string>
+    <string name="category">الفئة</string>
+    <string name="quantity">الكمية</string>
+    <string name="warehouse_location">موقع المخزن</string>
+    <string name="notes">ملاحظات</string>
+    <string name="product_photo">صورة المنتج</string>
+    <string name="take_photo">التقاط صورة</string>
+    <string name="choose_gallery">اختيار من المعرض</string>
+    <string name="save">حفظ</string>
+    <string name="cancel">إلغاء</string>
+    <string name="delete">حذف</string>
+    <string name="edit">تعديل</string>
+    <string name="confirm_delete">هل تريد حذف هذا المنتج؟</string>
+    <string name="low_stock_threshold">حد المخزون المنخفض</string>
+    <string name="no_products">لا توجد منتجات بعد</string>
+    <string name="select_category">اختر الفئة</string>
+
+    <!-- Categories -->
+    <string name="categories">الفئات</string>
+    <string name="add_category">إضافة فئة</string>
+    <string name="category_name">اسم الفئة</string>
+    <string name="no_categories">لا توجد فئات بعد</string>
+    <string name="confirm_delete_category">هل تريد حذف هذه الفئة؟</string>
+
+    <!-- Inventory -->
+    <string name="inventory">الجرد</string>
+    <string name="search">بحث</string>
+    <string name="search_hint">ابحث بالاسم أو الفئة</string>
+    <string name="current_quantity">الكمية الحالية</string>
+    <string name="all_categories">كل الفئات</string>
+
+    <!-- Stock Out -->
+    <string name="stock_out">صرف مخزون</string>
+    <string name="quantity_removed">الكمية المصروفة</string>
+    <string name="employee_name">اسم الموظف</string>
+    <string name="date">التاريخ</string>
+    <string name="confirm_stock_out">تأكيد الصرف</string>
+    <string name="select_product">اختر المنتج</string>
+    <string name="available">المتاح</string>
+    <string name="error_insufficient_stock">الكمية المطلوبة أكبر من المتاح</string>
+    <string name="error_invalid_quantity">أدخل كمية صحيحة</string>
+    <string name="stock_out_success">تم الصرف بنجاح</string>
+    <string name="history">سجل الصرف</string>
+    <string name="no_history">لا يوجد سجل صرف</string>
+
+    <!-- Users -->
+    <string name="users">المستخدمون</string>
+    <string name="add_user">إضافة مستخدم</string>
+    <string name="user_role">الصلاحية</string>
+    <string name="no_users">لا يوجد مستخدمون</string>
+    <string name="confirm_delete_user">هل تريد حذف هذا المستخدم؟</string>
+    <string name="error_email_exists">البريد الإلكتروني مستخدم مسبقاً</string>
+
+    <!-- Common -->
+    <string name="required_field">حقل مطلوب</string>
+    <string name="settings">الإعدادات</string>
+    <string name="theme">المظهر</string>
+    <string name="back">رجوع</string>
+    <string name="ok">حسناً</string>
+    <string name="units">وحدة</string>
+</resources>
