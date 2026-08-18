@@ -205,9 +205,9 @@ class SettingsViewModel @Inject constructor(
      * trusting the earlier inspection, because the document could have changed underneath us
      * between the two steps.
      *
-     * On success the session is cleared: the restored database has its own `users` table, and
-     * a session pointing at a user id from the *previous* database would otherwise survive
-     * the swap and resolve to the wrong person or to nobody at all.
+     * The session is deliberately *not* cleared here — see [finishRestore]. Clearing it would
+     * flip the app to its signed-out state immediately, swapping the navigation graph and
+     * tearing this screen down before it could tell the user to restart.
      */
     fun confirmRestore() {
         val pending = _state.value.pendingRestore ?: return
@@ -239,7 +239,6 @@ class SettingsViewModel @Inject constructor(
                     )
                     // The notified-low-stock set describes products that no longer exist.
                     lowStockNotifier.reset()
-                    sessionManager.signOut()
                     _state.update {
                         it.copy(
                             busy = false,
@@ -259,6 +258,22 @@ class SettingsViewModel @Inject constructor(
                         it.copy(busy = false, message = UiMessage(R.string.restore_failed))
                     }
             }
+        }
+    }
+
+    /**
+     * Clears the session and then hands control back so the caller can restart the process.
+     *
+     * The session has to go: the restored database has its own `users` table, and a session
+     * pointing at a user id from the *previous* database would survive the swap and resolve to
+     * the wrong person, or to nobody at all while still looking signed in. Doing it here — in
+     * order, immediately before the restart — means the signed-out state never gets a chance to
+     * render, so the user sees the restart happen rather than a flash of the login screen.
+     */
+    fun finishRestore(onCleared: () -> Unit) {
+        viewModelScope.launch {
+            runCatching { sessionManager.signOut() }
+            onCleared()
         }
     }
 

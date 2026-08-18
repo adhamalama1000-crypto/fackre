@@ -292,7 +292,9 @@ fun SettingsScreen(
             title = { Text(stringResource(R.string.restore_confirm_title)) },
             text = { Text(stringResource(R.string.restore_success)) },
             confirmButton = {
-                TextButton(onClick = { restartApp(context) }) {
+                TextButton(
+                    onClick = { viewModel.finishRestore { restartApp(context) } }
+                ) {
                     Text(stringResource(R.string.restart_now))
                 }
             }
