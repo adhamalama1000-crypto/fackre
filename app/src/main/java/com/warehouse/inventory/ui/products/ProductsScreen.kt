@@ -2,7 +2,6 @@ package com.warehouse.inventory.ui.products
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -18,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -26,9 +24,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,6 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.warehouse.inventory.R
 import com.warehouse.inventory.data.local.entity.ProductWithCategory
 import com.warehouse.inventory.ui.common.AppTopBar
+import com.warehouse.inventory.ui.common.ConfirmDialog
 import com.warehouse.inventory.ui.common.EmptyState
 import com.warehouse.inventory.ui.common.ProductImage
 
@@ -58,8 +59,19 @@ fun ProductsScreen(
     val products by viewModel.products.collectAsStateWithLifecycle()
     var toDelete by remember { mutableStateOf<ProductWithCategory?>(null) }
 
+    val snackbarHost = remember { SnackbarHostState() }
+    val messageRes by viewModel.message.collectAsStateWithLifecycle()
+    val message = messageRes?.let { stringResource(it) }
+    LaunchedEffect(message) {
+        if (message != null) {
+            snackbarHost.showSnackbar(message)
+            viewModel.consumeMessage()
+        }
+    }
+
     Scaffold(
         topBar = { AppTopBar(title = stringResource(R.string.products), onBack = onBack) },
+        snackbarHost = { SnackbarHost(snackbarHost) },
         floatingActionButton = {
             if (isAdmin) {
                 ExtendedFloatingActionButton(
@@ -95,19 +107,16 @@ fun ProductsScreen(
     }
 
     toDelete?.let { target ->
-        AlertDialog(
-            onDismissRequest = { toDelete = null },
-            title = { Text(stringResource(R.string.delete_product)) },
-            text = { Text(stringResource(R.string.confirm_delete)) },
-            confirmButton = {
-                TextButton(onClick = {
-                    viewModel.delete(target)
-                    toDelete = null
-                }) { Text(stringResource(R.string.delete)) }
+        ConfirmDialog(
+            title = stringResource(R.string.delete_product),
+            message = stringResource(R.string.confirm_delete),
+            confirmLabel = stringResource(R.string.delete),
+            destructive = true,
+            onConfirm = {
+                viewModel.delete(target)
+                toDelete = null
             },
-            dismissButton = {
-                TextButton(onClick = { toDelete = null }) { Text(stringResource(R.string.cancel)) }
-            }
+            onDismiss = { toDelete = null }
         )
     }
 }
