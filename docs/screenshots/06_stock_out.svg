@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="380" height="780" viewBox="0 0 380 780" font-family="Segoe UI, Tahoma, sans-serif" direction="rtl">
+<defs><clipPath id="r"><rect x="0" y="0" width="380" height="780" rx="28"/></clipPath></defs>
+<g clip-path="url(#r)">
+<rect x="0" y="0" width="380" height="780" fill="#F7F9FC"/>
+<!-- status bar -->
+<rect x="0" y="0" width="380" height="34" fill="#F7F9FC"/>
+<text x="24" y="22" fill="#1A1F28" font-size="13" text-anchor="start">100%</text>
+<text x="356" y="22" fill="#1A1F28" font-size="13" text-anchor="end">9:41</text>
+<rect x="0" y="34" width="380" height="52" fill="#FFFFFF"/><text x="328" y="66" fill="#1A1F28" font-size="19" font-weight="bold" text-anchor="end">صرف مخزون</text><text x="358" y="66" fill="#1A1F28" font-size="20" text-anchor="end">→</text>
+<rect x="24" y="100" width="332" height="56" rx="12" fill="#FFFFFF" stroke="#8A94A6"/><text x="340" y="122" fill="#8A94A6" font-size="12" font-weight="normal" text-anchor="end">اختر المنتج</text><text x="340" y="144" fill="#1A1F28" font-size="14" font-weight="normal" text-anchor="end">كاميرا Hikvision 4MP  (42)</text><text x="44" y="134" font-size="16" text-anchor="start">▾</text>
+<text x="356" y="180" fill="#1565C0" font-size="14" font-weight="bold" text-anchor="end">المتاح: 42</text>
+<rect x="24" y="196" width="332" height="56" rx="12" fill="#FFFFFF" stroke="#8A94A6"/><text x="340" y="218" fill="#8A94A6" font-size="12" font-weight="normal" text-anchor="end">الكمية المصروفة</text><text x="340" y="240" fill="#1A1F28" font-size="15" font-weight="normal" text-anchor="end">5</text>
+<rect x="24" y="264" width="332" height="56" rx="12" fill="#FFFFFF" stroke="#8A94A6"/><text x="340" y="286" fill="#8A94A6" font-size="12" font-weight="normal" text-anchor="end">اسم الموظف</text><text x="340" y="308" fill="#1A1F28" font-size="15" font-weight="normal" text-anchor="end">أحمد علي</text>
+<rect x="24" y="332" width="332" height="56" rx="12" fill="#FFFFFF" stroke="#8A94A6"/><text x="340" y="354" fill="#8A94A6" font-size="12" font-weight="normal" text-anchor="end">التاريخ</text><text x="340" y="376" fill="#1A1F28" font-size="15" font-weight="normal" text-anchor="end">2026/07/09</text><text x="44" y="366" font-size="15" text-anchor="start">📅</text>
+<rect x="24" y="400" width="332" height="72" rx="12" fill="#FFFFFF" stroke="#8A94A6"/><text x="340" y="424" fill="#8A94A6" font-size="12" font-weight="normal" text-anchor="end">ملاحظات</text>
+<rect x="24" y="500" width="332" height="54" rx="14" fill="#1565C0" stroke="none"/><text x="190" y="534" fill="#fff" font-size="17" font-weight="bold" text-anchor="middle">تأكيد الصرف</text>
+<rect x="70" y="590" width="240" height="40" rx="20" fill="#20202080" stroke="none"/><text x="190" y="616" fill="#fff" font-size="13" font-weight="normal" text-anchor="middle">تم الصرف بنجاح</text>
+
+</g>
+<rect x="0.5" y="0.5" width="379" height="779" rx="28" fill="none" stroke="#00000022"/>
+</svg>

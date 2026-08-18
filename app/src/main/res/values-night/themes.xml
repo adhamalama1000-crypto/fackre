@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Rasid" parent="android:Theme.Material.NoActionBar">
+        <!-- Same branded splash: the navy plate reads correctly in dark mode as-is. -->
+        <item name="android:windowBackground">@drawable/splash_window_background</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Rasid.Main" parent="Theme.Rasid">
+        <!-- Matches DarkBackground in ui/theme/Color.kt so there is no seam on first frame. -->
+        <item name="android:windowBackground">#FF101418</item>
+    </style>
+</resources>

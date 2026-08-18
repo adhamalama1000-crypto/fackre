@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The complete Rasid mark, background included, for in-app use: the splash screen, the login
+  header and the About section. Same cube as the launcher icon so the identity is one thing
+  everywhere, but with its own rounded-square plate since nothing masks it here.
+
+  Drawn on a 96-unit grid and scaled by the caller, so it stays crisp at any size.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+
+    <!-- Rounded-square brand plate -->
+    <path android:pathData="M24,0 L72,0 A24,24 0 0,1 96,24 L96,72 A24,24 0 0,1 72,96 L24,96 A24,24 0 0,1 0,72 L0,24 A24,24 0 0,1 24,0 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="0"
+                android:startY="0"
+                android:endX="96"
+                android:endY="96"
+                android:type="linear">
+                <item android:offset="0" android:color="#FF0B4A8F" />
+                <item android:offset="1" android:color="#FF002F5F" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Cube: top face in brand amber -->
+    <path
+        android:fillColor="#F5A524"
+        android:pathData="M48,22 L72,35 L48,48 L24,35 Z" />
+    <!-- Left face -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,35 L48,48 L48,76 L24,63 Z" />
+    <!-- Right face -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.62"
+        android:pathData="M72,35 L48,48 L48,76 L72,63 Z" />
+</vector>

@@ -1,0 +1,401 @@
+<resources>
+    <!--
+      English resources, for developers and English-speaking staff. The DEFAULT set in
+      values/ is Arabic, so this file is only used on devices whose locale is English.
+      Key set must stay identical to values/strings.xml.
+    -->
+    <string name="app_name">Rasid</string>
+    <string name="app_tagline">Inventory Management System</string>
+    <string name="app_full_name">Rasid — Inventory Management</string>
+
+    <!-- Auth -->
+    <string name="login">Sign in</string>
+    <string name="logout">Sign out</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login_title">Welcome</string>
+    <string name="login_subtitle">Sign in to manage your inventory</string>
+    <string name="error_invalid_credentials">Incorrect email or password</string>
+    <string name="error_empty_fields">Please fill in all fields</string>
+    <string name="error_invalid_email">Invalid email format</string>
+    <string name="show_password">Show password</string>
+    <string name="hide_password">Hide password</string>
+
+    <!-- Roles -->
+    <string name="role_admin">Admin</string>
+    <string name="role_viewer">Viewer</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard">Dashboard</string>
+    <string name="total_products">Total products</string>
+    <string name="total_quantity">Total quantity</string>
+    <string name="low_stock">Low stock</string>
+    <string name="out_today">Issued today</string>
+    <string name="in_today">Received today</string>
+    <string name="inventory_value">Inventory value</string>
+    <string name="warehouses_count">Warehouses</string>
+    <string name="quick_actions">Quick actions</string>
+    <string name="recent_transactions">Recent activity</string>
+    <string name="low_stock_products">Low stock products</string>
+    <string name="view_all">View all</string>
+    <string name="greeting_admin">Administrator</string>
+    <string name="dashboard_greeting">Welcome, %1$s</string>
+    <string name="all_sections">All sections</string>
+
+    <!-- Menu -->
+    <string name="menu_products">Products</string>
+    <string name="menu_stock_out">Stock out</string>
+    <string name="menu_stock_in">Stock in</string>
+    <string name="menu_adjustment">Adjustment</string>
+    <string name="menu_transfer">Transfer</string>
+    <string name="menu_inventory">Inventory</string>
+    <string name="menu_categories">Categories</string>
+    <string name="menu_users">Users</string>
+    <string name="menu_history">Transaction history</string>
+    <string name="menu_suppliers">Suppliers</string>
+    <string name="menu_employees">Employees</string>
+    <string name="menu_warehouses">Warehouses</string>
+    <string name="menu_audit_log">Audit log</string>
+    <string name="menu_reports">Reports</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_scan">Scan barcode</string>
+
+    <!-- Products -->
+    <string name="products">Products</string>
+    <string name="add_product">Add product</string>
+    <string name="edit_product">Edit product</string>
+    <string name="delete_product">Delete product</string>
+    <string name="product_name">Product name</string>
+    <string name="product_id">Product ID</string>
+    <string name="category">Category</string>
+    <string name="quantity">Quantity</string>
+    <string name="warehouse_location">Location in warehouse</string>
+    <string name="notes">Notes</string>
+    <string name="product_photo">Product photo</string>
+    <string name="take_photo">Take photo</string>
+    <string name="choose_gallery">Choose from gallery</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_delete">Delete this product?</string>
+    <string name="low_stock_threshold">Low stock threshold</string>
+    <string name="no_products">No products yet</string>
+    <string name="select_category">Select category</string>
+    <string name="no_category">No category</string>
+    <string name="sku">SKU</string>
+    <string name="barcode">Barcode</string>
+    <string name="unit">Unit</string>
+    <string name="purchase_cost">Purchase cost</string>
+    <string name="selling_price">Selling price</string>
+    <string name="initial_quantity">Opening quantity</string>
+    <string name="initial_warehouse">Opening warehouse</string>
+    <string name="opening_balance">Opening balance</string>
+    <string name="section_identification">Identification</string>
+    <string name="section_stock">Stock</string>
+    <string name="section_pricing">Pricing (optional)</string>
+    <string name="section_details">Additional details</string>
+    <string name="error_duplicate_sku">This SKU is already used by another product</string>
+    <string name="error_duplicate_barcode">This barcode is already used by another product</string>
+    <string name="stock_edit_hint">Quantity cannot be edited here. Use stock in, stock out or an adjustment so every change is recorded.</string>
+    <string name="stock_by_warehouse">Stock by warehouse</string>
+
+    <!-- Units -->
+    <string name="unit_piece">Piece</string>
+    <string name="unit_box">Box</string>
+    <string name="unit_carton">Carton</string>
+    <string name="unit_pack">Pack</string>
+    <string name="unit_meter">Meter</string>
+    <string name="unit_kilogram">Kilogram</string>
+    <string name="unit_liter">Liter</string>
+
+    <!-- Categories -->
+    <string name="categories">Categories</string>
+    <string name="add_category">Add category</string>
+    <string name="edit_category">Edit category</string>
+    <string name="category_name">Category name</string>
+    <string name="no_categories">No categories yet</string>
+    <string name="confirm_delete_category">Delete this category? Products in it will not be deleted.</string>
+    <string name="error_duplicate_category">A category with this name already exists</string>
+
+    <!-- Inventory -->
+    <string name="inventory">Inventory</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Search by name, category or barcode</string>
+    <string name="current_quantity">Current quantity</string>
+    <string name="all_categories">All categories</string>
+    <string name="all_warehouses">All warehouses</string>
+    <string name="filter_low_stock_only">Low stock only</string>
+    <string name="no_results">No matching results</string>
+
+    <!-- Stock Out -->
+    <string name="stock_out">Stock out</string>
+    <string name="quantity_removed">Quantity issued</string>
+    <string name="employee_name">Employee</string>
+    <string name="date">Date</string>
+    <string name="confirm_stock_out">Confirm stock out</string>
+    <string name="select_product">Select product</string>
+    <string name="available">Available</string>
+    <string name="error_insufficient_stock">Requested quantity exceeds available stock</string>
+    <string name="error_invalid_quantity">Enter a valid quantity greater than zero</string>
+    <string name="stock_out_success">Stock issued successfully</string>
+
+    <!-- Stock In -->
+    <string name="stock_in">Stock in</string>
+    <string name="quantity_received">Quantity received</string>
+    <string name="supplier">Supplier</string>
+    <string name="select_supplier">Select supplier</string>
+    <string name="invoice_number">Invoice / shipment number</string>
+    <string name="confirm_stock_in">Confirm stock in</string>
+    <string name="stock_in_success">Stock received successfully</string>
+    <string name="new_balance_preview">Balance after this operation</string>
+
+    <!-- Stock Adjustment -->
+    <string name="stock_adjustment">Stock adjustment</string>
+    <string name="system_quantity">System quantity</string>
+    <string name="physical_quantity">Physical quantity</string>
+    <string name="difference">Difference</string>
+    <string name="adjustment_reason">Adjustment reason</string>
+    <string name="select_reason">Select a reason</string>
+    <string name="confirm_adjustment">Confirm adjustment</string>
+    <string name="adjustment_success">Adjustment recorded successfully</string>
+    <string name="error_no_change">Physical quantity matches the system; no adjustment needed</string>
+    <string name="error_reason_required">Please select an adjustment reason</string>
+    <string name="adjustment_hint">Enter the quantity actually counted in the warehouse; the difference is calculated for you.</string>
+
+    <!-- Adjustment reasons -->
+    <string name="reason_damaged">Damaged</string>
+    <string name="reason_lost">Lost</string>
+    <string name="reason_counting_error">Counting error</string>
+    <string name="reason_manual_correction">Manual correction</string>
+    <string name="reason_other">Other</string>
+
+    <!-- Stock Transfer -->
+    <string name="stock_transfer">Warehouse transfer</string>
+    <string name="from_warehouse">From warehouse</string>
+    <string name="to_warehouse">To warehouse</string>
+    <string name="quantity_transferred">Quantity transferred</string>
+    <string name="confirm_transfer">Confirm transfer</string>
+    <string name="transfer_success">Transfer completed successfully</string>
+    <string name="error_same_warehouse">Source and destination cannot be the same warehouse</string>
+    <string name="error_need_two_warehouses">At least two warehouses are needed to transfer</string>
+
+    <!-- History -->
+    <string name="history">Transaction history</string>
+    <string name="no_history">No transactions recorded</string>
+    <string name="transaction_type">Type</string>
+    <string name="transaction_stock_in">Stock in</string>
+    <string name="transaction_stock_out">Stock out</string>
+    <string name="transaction_adjustment">Adjustment</string>
+    <string name="transaction_transfer_out">Transfer out</string>
+    <string name="transaction_transfer_in">Transfer in</string>
+    <string name="previous_stock">Previous stock</string>
+    <string name="new_stock">New stock</string>
+    <string name="all_types">All types</string>
+    <string name="filters">Filters</string>
+    <string name="clear_filters">Clear filters</string>
+    <string name="date_from">From</string>
+    <string name="date_to">To</string>
+    <string name="date_range">Period</string>
+    <string name="unknown_value">—</string>
+    <string name="history_search_hint">Search by product, employee or invoice</string>
+    <string name="recorded_by">Recorded by</string>
+    <string name="warehouse">Warehouse</string>
+
+    <!-- Suppliers -->
+    <string name="suppliers">Suppliers</string>
+    <string name="add_supplier">Add supplier</string>
+    <string name="edit_supplier">Edit supplier</string>
+    <string name="supplier_name">Supplier name</string>
+    <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="no_suppliers">No suppliers yet</string>
+    <string name="confirm_delete_supplier">Delete this supplier? Past transactions are kept.</string>
+    <string name="error_duplicate_supplier">A supplier with this name already exists</string>
+    <string name="supplier_search_hint">Search by name, phone or email</string>
+    <string name="supplier_details">Supplier details</string>
+
+    <!-- Employees -->
+    <string name="employees">Employees</string>
+    <string name="add_employee">Add employee</string>
+    <string name="edit_employee">Edit employee</string>
+    <string name="employee_code">Employee ID</string>
+    <string name="department">Department</string>
+    <string name="no_employees">No employees yet</string>
+    <string name="confirm_delete_employee">Delete this employee? Past transactions are kept.</string>
+    <string name="error_duplicate_employee_code">This employee ID is already in use</string>
+    <string name="employee_search_hint">Search by name, ID or department</string>
+    <string name="employee_active">Currently employed</string>
+    <string name="employee_inactive">Inactive</string>
+    <string name="select_employee">Select employee</string>
+    <string name="employees_hint">Employees are the people who physically receive or issue stock. They are separate from app user accounts.</string>
+
+    <!-- Warehouses -->
+    <string name="warehouses">Warehouses</string>
+    <string name="add_warehouse">Add warehouse</string>
+    <string name="edit_warehouse">Edit warehouse</string>
+    <string name="warehouse_name">Warehouse name</string>
+    <string name="warehouse_code">Warehouse code</string>
+    <string name="location">Location</string>
+    <string name="no_warehouses">No warehouses yet</string>
+    <string name="confirm_delete_warehouse">Delete this warehouse?</string>
+    <string name="error_duplicate_warehouse_code">This warehouse code is already in use</string>
+    <string name="error_warehouse_not_empty">A warehouse holding stock cannot be deleted. Transfer or issue its stock first.</string>
+    <string name="error_last_warehouse">The last warehouse cannot be deleted</string>
+    <string name="default_warehouse">Default warehouse</string>
+    <string name="set_as_default">Set as default</string>
+    <string name="select_warehouse">Select warehouse</string>
+    <string name="warehouse_search_hint">Search by name, code or location</string>
+    <string name="items_count">Items</string>
+    <string name="items_count_value">%1$s items</string>
+
+    <!-- Users -->
+    <string name="users">Users</string>
+    <string name="add_user">Add user</string>
+    <string name="edit_user">Edit user</string>
+    <string name="user_name">Name</string>
+    <string name="user_role">Role</string>
+    <string name="no_users">No users</string>
+    <string name="confirm_delete_user">Delete this user?</string>
+    <string name="error_email_exists">This email is already registered</string>
+    <string name="error_password_too_short">Password must be at least 6 characters</string>
+    <string name="error_last_admin">The last admin cannot be deleted or demoted</string>
+    <string name="error_delete_self">You cannot delete your own account</string>
+    <string name="new_password_optional">New password (leave blank to keep current)</string>
+
+    <!-- Audit log -->
+    <string name="audit_log">Audit log</string>
+    <string name="no_audit_entries">No audit entries</string>
+    <string name="audit_search_hint">Search by user or item</string>
+    <string name="audit_action">Action</string>
+    <string name="audit_target">Item</string>
+    <string name="audit_user">User</string>
+    <string name="all_actions">All actions</string>
+    <string name="audit_login">Signed in</string>
+    <string name="audit_logout">Signed out</string>
+    <string name="audit_product_created">Product created</string>
+    <string name="audit_product_edited">Product edited</string>
+    <string name="audit_product_deleted">Product deleted</string>
+    <string name="audit_category_created">Category created</string>
+    <string name="audit_category_edited">Category edited</string>
+    <string name="audit_category_deleted">Category deleted</string>
+    <string name="audit_user_created">User created</string>
+    <string name="audit_user_edited">User edited</string>
+    <string name="audit_user_deleted">User deleted</string>
+    <string name="audit_supplier_created">Supplier created</string>
+    <string name="audit_supplier_edited">Supplier edited</string>
+    <string name="audit_supplier_deleted">Supplier deleted</string>
+    <string name="audit_employee_created">Employee created</string>
+    <string name="audit_employee_edited">Employee edited</string>
+    <string name="audit_employee_deleted">Employee deleted</string>
+    <string name="audit_warehouse_created">Warehouse created</string>
+    <string name="audit_warehouse_edited">Warehouse edited</string>
+    <string name="audit_warehouse_deleted">Warehouse deleted</string>
+    <string name="audit_stock_in">Stock in</string>
+    <string name="audit_stock_out">Stock out</string>
+    <string name="audit_stock_adjustment">Stock adjustment</string>
+    <string name="audit_stock_transfer">Stock transfer</string>
+    <string name="audit_backup_created">Backup created</string>
+    <string name="audit_backup_restored">Backup restored</string>
+    <string name="audit_permission_denied">Unauthorized attempt</string>
+
+    <!-- Reports -->
+    <string name="reports">Reports</string>
+    <string name="report_current_inventory">Current inventory</string>
+    <string name="report_low_stock">Low stock</string>
+    <string name="report_stock_in">Stock in</string>
+    <string name="report_stock_out">Stock out</string>
+    <string name="report_adjustments">Adjustments</string>
+    <string name="report_movement">Inventory movement</string>
+    <string name="report_top_issued">Top issued products</string>
+    <string name="report_daily_activity">Daily activity</string>
+    <string name="report_monthly_activity">Monthly activity</string>
+    <string name="report_options">Report options</string>
+    <string name="generate_report">Generate report</string>
+    <string name="export_csv">Export Excel / CSV</string>
+    <string name="export_pdf">Export PDF</string>
+    <string name="exporting">Exporting…</string>
+    <string name="export_success">File created</string>
+    <string name="export_failed">Could not create the file</string>
+    <string name="export_empty">No data to export</string>
+    <string name="share_file">Share file</string>
+    <string name="rows_count">Records</string>
+    <string name="report_period">Period</string>
+    <string name="period_today">Today</string>
+    <string name="period_last_7">Last 7 days</string>
+    <string name="period_last_30">Last 30 days</string>
+    <string name="period_this_month">This month</string>
+    <string name="period_all">All time</string>
+    <string name="report_generated_at">Generated</string>
+    <string name="total">Total</string>
+    <string name="count">Count</string>
+
+    <!-- Scanner -->
+    <string name="scan_barcode">Scan barcode</string>
+    <string name="scanner_hint">Point the camera at a barcode or QR code</string>
+    <string name="scanner_torch">Torch</string>
+    <string name="camera_permission_required">Camera permission required</string>
+    <string name="camera_permission_rationale">The app needs the camera to scan barcodes and identify products.</string>
+    <string name="camera_permission_denied_hint">Camera permission was denied. You can allow it in app settings.</string>
+    <string name="grant_permission">Allow</string>
+    <string name="error_barcode_not_found">No product matches this barcode</string>
+    <string name="barcode_scanned">Barcode read</string>
+    <string name="scan_to_fill">Scan to fill</string>
+
+    <!-- Settings / Backup -->
+    <string name="settings">Settings</string>
+    <string name="theme">Appearance</string>
+    <string name="theme_system">Follow system</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="low_stock_check_done">Low-stock check completed</string>
+    <string name="backup_in_progress">Working…</string>
+    <string name="backup_restore">Backup &amp; restore</string>
+    <string name="backup_database">Create backup</string>
+    <string name="restore_database">Restore backup</string>
+    <string name="backup_description">A backup contains the database and all product photos.</string>
+    <string name="backup_success">Backup created successfully</string>
+    <string name="backup_failed">Could not create the backup</string>
+    <string name="restore_confirm_title">Confirm restore</string>
+    <string name="restore_confirm_message">All current data will be replaced with the contents of the backup. This cannot be undone. Continue?</string>
+    <string name="restore_success">Restore complete. The app will restart.</string>
+    <string name="restore_failed">Restore failed</string>
+    <string name="restore_invalid_file">The selected file is not a valid backup</string>
+    <string name="restore_foreign_file">This backup belongs to a different app</string>
+    <string name="restore_too_new">This backup was created by a newer version. Please update the app first.</string>
+    <string name="restore_corrupt">The file is corrupt or incomplete</string>
+    <string name="backup_details">Created %1$s • version %2$s • %3$s photos</string>
+    <string name="restart_now">Restart</string>
+    <string name="low_stock_notifications">Low stock notifications</string>
+    <string name="low_stock_notifications_desc">Show a notification when a product reaches its low stock threshold.</string>
+    <string name="check_low_stock_now">Check low stock now</string>
+    <string name="notification_permission_needed">Notification permission is required to show alerts</string>
+    <string name="about">About</string>
+    <string name="about_version">Version</string>
+    <string name="about_description">Rasid is a warehouse inventory system: receiving, issuing, adjustments and transfers between warehouses, with a complete transaction history and exportable reports.</string>
+    <string name="database_schema_version">Database version</string>
+
+    <!-- Common -->
+    <string name="required_field">Required</string>
+    <string name="back">Back</string>
+    <string name="ok">OK</string>
+    <string name="close">Close</string>
+    <string name="retry">Retry</string>
+    <string name="loading">Loading…</string>
+    <string name="units">units</string>
+    <string name="optional">Optional</string>
+    <string name="error_not_authorized">This action requires admin permission</string>
+    <string name="error_generic">An unexpected error occurred</string>
+    <string name="error_invalid_date">Invalid date. A future date cannot be selected.</string>
+    <string name="error_product_not_found">Product not found</string>
+    <string name="error_warehouse_not_found">Warehouse not found</string>
+    <string name="error_no_warehouse">Add at least one warehouse before adding products</string>
+    <string name="quantity_with_unit">%1$s %2$s</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_low_stock">Low stock alerts</string>
+    <string name="notification_channel_low_stock_desc">Alerts when a product drops to its minimum quantity</string>
+    <string name="notification_low_stock_title">Low stock alert</string>
+    <string name="notification_low_stock_text">%1$s — %2$s %3$s remaining</string>
+</resources>

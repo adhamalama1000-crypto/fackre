@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The platform theme only governs the window itself — Compose supplies every colour inside
+  it. Its one real job is the cold-start appearance, so windowBackground is the branded
+  splash layer rather than plain white.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Rasid" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_window_background</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!--
+      Post-splash theme. MainActivity switches to this in onCreate so the branded splash
+      drawable is not still sitting behind the app's own background, which would show
+      through anywhere the content is translucent and would waste a full-screen overdraw.
+    -->
+    <style name="Theme.Rasid.Main" parent="Theme.Rasid">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+</resources>

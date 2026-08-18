@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="380" height="780" viewBox="0 0 380 780" font-family="Segoe UI, Tahoma, sans-serif" direction="rtl">
+<defs><clipPath id="r"><rect x="0" y="0" width="380" height="780" rx="28"/></clipPath></defs>
+<g clip-path="url(#r)">
+<rect x="0" y="0" width="380" height="780" fill="#F7F9FC"/>
+<!-- status bar -->
+<rect x="0" y="0" width="380" height="34" fill="#F7F9FC"/>
+<text x="24" y="22" fill="#1A1F28" font-size="13" text-anchor="start">100%</text>
+<text x="356" y="22" fill="#1A1F28" font-size="13" text-anchor="end">9:41</text>
+
+<circle cx="190" cy="150" r="46" fill="#D6E3FF"/>
+<text x="190" y="164" font-size="40" text-anchor="middle">🏭</text>
+<text x="190" y="235" fill="#1A1F28" font-size="26" font-weight="bold" text-anchor="middle">مرحباً بك</text>
+<text x="190" y="262" fill="#8A94A6" font-size="14" font-weight="normal" text-anchor="middle">سجّل الدخول لإدارة المخزون</text>
+<rect x="28" y="300" width="324" height="56" rx="12" fill="#FFFFFF" stroke="#8A94A6"/>
+<text x="334" y="334" fill="#8A94A6" font-size="14" font-weight="normal" text-anchor="end">البريد الإلكتروني</text>
+<text x="46" y="334" font-size="16" text-anchor="start">✉</text>
+<rect x="28" y="372" width="324" height="56" rx="12" fill="#FFFFFF" stroke="#8A94A6"/>
+<text x="334" y="406" fill="#1A1F28" font-size="16" font-weight="normal" text-anchor="end">••••••••</text>
+<text x="46" y="406" font-size="16" text-anchor="start">🔒</text>
+<rect x="28" y="452" width="324" height="54" rx="14" fill="#1565C0" stroke="none"/>
+<text x="190" y="486" fill="#FFFFFF" font-size="17" font-weight="bold" text-anchor="middle">تسجيل الدخول</text>
+<text x="190" y="545" fill="#8A94A6" font-size="12" font-weight="normal" text-anchor="middle">admin@warehouse.com / admin123</text>
+
+</g>
+<rect x="0.5" y="0.5" width="379" height="779" rx="28" fill="none" stroke="#00000022"/>
+</svg>

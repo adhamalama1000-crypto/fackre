@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  XML-side colours. The Compose UI gets its palette from ui/theme/Color.kt; these exist only
+  for the places Compose cannot reach: the cold-start window background and the platform
+  splash screen, which are resolved by the framework before any Composable runs. Values are
+  kept in sync with BrandNavy / BrandNavyDeep / BrandAmber in Color.kt.
+-->
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="brand_navy">#FF0B4A8F</color>
+    <color name="brand_navy_deep">#FF002F5F</color>
+    <color name="brand_amber">#FFF5A524</color>
+</resources>
