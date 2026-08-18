@@ -15,6 +15,27 @@ import javax.inject.Singleton
 private val Context.settingsDataStore by preferencesDataStore(name = "app_settings")
 
 /**
+ * Which colour scheme the app should use.
+ *
+ * [SYSTEM] is the default and follows the device setting, which is what most warehouse
+ * phones are configured for. The explicit options exist because a device left on automatic
+ * day/night switching will flip the app mid-shift, and staff working under fixed
+ * fluorescent light generally want one of the two pinned.
+ */
+enum class ThemeMode {
+    SYSTEM,
+    LIGHT,
+    DARK;
+
+    /** Resolves to an actual dark/light decision given the current system setting. */
+    fun isDark(systemInDark: Boolean): Boolean = when (this) {
+        SYSTEM -> systemInDark
+        LIGHT -> false
+        DARK -> true
+    }
+}
+
+/**
  * App-level settings and small bits of bookkeeping that are not database rows.
  *
  * Kept in its own DataStore file, separate from the session, so signing out (which clears
@@ -25,9 +46,20 @@ class AppPreferences @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     private object Keys {
+        val THEME_MODE = stringPreferencesKey("theme_mode")
         val LOW_STOCK_NOTIFICATIONS = booleanPreferencesKey("low_stock_notifications")
         /** Comma-separated product ids already notified about, to suppress repeats. */
         val NOTIFIED_LOW_STOCK = stringPreferencesKey("notified_low_stock_ids")
+    }
+
+    /** Falls back to [ThemeMode.SYSTEM] for a missing or unrecognised stored value. */
+    val themeMode: Flow<ThemeMode> = context.settingsDataStore.data.map { prefs ->
+        runCatching { ThemeMode.valueOf(prefs[Keys.THEME_MODE] ?: "") }
+            .getOrDefault(ThemeMode.SYSTEM)
+    }
+
+    suspend fun setThemeMode(mode: ThemeMode) {
+        context.settingsDataStore.edit { it[Keys.THEME_MODE] = mode.name }
     }
 
     val lowStockNotificationsEnabled: Flow<Boolean> =

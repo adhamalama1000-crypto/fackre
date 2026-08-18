@@ -39,6 +39,8 @@
     <string name="low_stock_products">Low stock products</string>
     <string name="view_all">View all</string>
     <string name="greeting_admin">Administrator</string>
+    <string name="dashboard_greeting">Welcome, %1$s</string>
+    <string name="all_sections">All sections</string>
 
     <!-- Menu -->
     <string name="menu_products">Products</string>
@@ -246,6 +248,7 @@
     <string name="select_warehouse">Select warehouse</string>
     <string name="warehouse_search_hint">Search by name, code or location</string>
     <string name="items_count">Items</string>
+    <string name="items_count_value">%1$s items</string>
 
     <!-- Users -->
     <string name="users">Users</string>
@@ -343,6 +346,11 @@
     <!-- Settings / Backup -->
     <string name="settings">Settings</string>
     <string name="theme">Appearance</string>
+    <string name="theme_system">Follow system</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="low_stock_check_done">Low-stock check completed</string>
+    <string name="backup_in_progress">Working…</string>
     <string name="backup_restore">Backup &amp; restore</string>
     <string name="backup_database">Create backup</string>
     <string name="restore_database">Restore backup</string>

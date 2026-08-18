@@ -39,6 +39,8 @@
     <string name="low_stock_products">منتجات بمخزون منخفض</string>
     <string name="view_all">عرض الكل</string>
     <string name="greeting_admin">مدير النظام</string>
+    <string name="dashboard_greeting">مرحباً، %1$s</string>
+    <string name="all_sections">كل الأقسام</string>
 
     <!-- Menu -->
     <string name="menu_products">المنتجات</string>
@@ -246,6 +248,7 @@
     <string name="select_warehouse">اختر المخزن</string>
     <string name="warehouse_search_hint">ابحث بالاسم أو الرمز أو الموقع</string>
     <string name="items_count">عدد الأصناف</string>
+    <string name="items_count_value">%1$s صنف</string>
 
     <!-- Users -->
     <string name="users">المستخدمون</string>
@@ -343,6 +346,11 @@
     <!-- Settings / Backup -->
     <string name="settings">الإعدادات</string>
     <string name="theme">المظهر</string>
+    <string name="theme_system">حسب النظام</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+    <string name="low_stock_check_done">تم فحص المخزون المنخفض</string>
+    <string name="backup_in_progress">جارٍ التنفيذ…</string>
     <string name="backup_restore">النسخ الاحتياطي والاستعادة</string>
     <string name="backup_database">إنشاء نسخة احتياطية</string>
     <string name="restore_database">استعادة نسخة احتياطية</string>

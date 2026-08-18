@@ -21,7 +21,7 @@ data class LoginUiState(
     val error: LoginError? = null
 )
 
-enum class LoginError { EMPTY, INVALID }
+enum class LoginError { EMPTY, INVALID_EMAIL, INVALID }
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -41,6 +41,12 @@ class LoginViewModel @Inject constructor(
             _state.update { it.copy(error = LoginError.EMPTY) }
             return
         }
+        // Checked before hitting the database so an obvious typo says "bad email format"
+        // rather than the misleading "wrong email or password".
+        if (!EMAIL_PATTERN.matches(current.email.trim())) {
+            _state.update { it.copy(error = LoginError.INVALID_EMAIL) }
+            return
+        }
         _state.update { it.copy(loading = true, error = null) }
         viewModelScope.launch {
             when (val result = userRepository.login(current.email, current.password)) {
@@ -56,5 +62,14 @@ class LoginViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private companion object {
+        /**
+         * Deliberately permissive: this only catches obvious typos (missing @, missing dot,
+         * stray spaces). Full RFC 5322 validation would reject addresses that are legal and
+         * in use, and the credential check is the real gate anyway.
+         */
+        val EMAIL_PATTERN = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]{2,}$")
     }
 }
