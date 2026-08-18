@@ -10,7 +10,8 @@ therefore possible. Concretely:
 - ❌ **No test was executed.** The 66 unit tests described below were written, not run.
 - ❌ **No emulator or device was used.** There are no screenshots from this work.
 - ✅ **The tree was verified programmatically** — the checks are listed below, along with the
-  four real defects they found.
+  five real defects they found (four in the pre-existing code, one in code written during this
+  change).
 
 Treat `./gradlew assembleDebug testDebugUnitTest` on your machine as the authoritative result.
 Where this document says "verified", it means verified by the static check named beside it, and
