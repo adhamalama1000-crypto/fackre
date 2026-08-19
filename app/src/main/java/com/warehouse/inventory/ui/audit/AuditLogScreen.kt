@@ -14,7 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Assignment
+import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.filled.FilterAltOff
@@ -135,7 +135,7 @@ fun AuditLogScreen(
             if (entries.isEmpty()) {
                 EmptyState(
                     message = stringResource(R.string.no_audit_entries),
-                    icon = Icons.Filled.Assignment
+                    icon = Icons.AutoMirrored.Filled.Assignment
                 )
             } else {
                 LazyColumn(
