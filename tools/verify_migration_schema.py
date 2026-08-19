@@ -22,8 +22,9 @@ schema. That makes this script a check on the test fixture as much as on the mig
 is the point -- a fixture that misdescribes v1 produces exactly the failure it is meant to
 catch, and did.
 
-Exits 1 on any mismatch. Exits 0 with a notice if the exported schema is absent, since that
-means the build was incremental and Room skipped codegen, not that the migration is wrong.
+Exits 1 on any mismatch, and also when no exported schema can be found: CI forces the
+codegen that produces it, so an absent schema means the check could not run, which must not be
+reported as success.
 """
 
 from __future__ import annotations
@@ -34,9 +35,22 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-SCHEMA = REPO / "app/schemas/2.json"
+SCHEMA_DIR = REPO / "app/schemas"
+TARGET_VERSION = 2
 MIGRATIONS = REPO / "app/src/main/java/com/warehouse/inventory/data/local/Migrations.kt"
 V1_FIXTURE = REPO / "app/src/test/java/com/warehouse/inventory/data/MigrationV1ToV2Test.kt"
+
+
+def find_schema() -> Path | None:
+    """Locate the exported schema for [TARGET_VERSION].
+
+    Searched rather than hardcoded: Room 2.6 nests exports under a directory named for the
+    database class (`app/schemas/<fqcn>/2.json`), while older versions wrote
+    `app/schemas/2.json`. Assuming the flat path made this script report "nothing to compare"
+    and exit 0 — a check that passed without checking, which is worse than no check at all.
+    """
+    matches = sorted(SCHEMA_DIR.rglob(f"{TARGET_VERSION}.json"))
+    return matches[0] if matches else None
 
 # Matches a column line inside a CREATE TABLE body: `name` TYPE ...
 COLUMN = re.compile(r"`(\w+)`\s+(?:INTEGER|TEXT|REAL|BLOB|NUMERIC)\b", re.I)
@@ -91,12 +105,19 @@ def index_set(source: str) -> set[tuple[str, tuple[str, ...], bool]]:
 
 
 def main() -> int:
-    if not SCHEMA.exists():
-        print(f"NOTICE: {SCHEMA.relative_to(REPO)} not present -- incremental build, "
-              "Room skipped codegen. Nothing to compare.")
-        return 0
+    schema_path = find_schema()
+    if schema_path is None:
+        # Deliberately fatal. CI forces `kspDebugKotlin --rerun-tasks` before this runs, so a
+        # missing export means codegen or this search is broken -- either way the migration is
+        # unverified, and reporting success would be a lie.
+        print(f"FAIL: no {TARGET_VERSION}.json found under "
+              f"{SCHEMA_DIR.relative_to(REPO)} -- cannot verify the migration.")
+        found = sorted(p.relative_to(REPO).as_posix() for p in SCHEMA_DIR.rglob("*"))
+        print(f"       contents: {found or '(nothing)'}")
+        return 1
 
-    schema = json.loads(SCHEMA.read_text(encoding="utf-8"))["database"]
+    print(f"Comparing against {schema_path.relative_to(REPO).as_posix()}")
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))["database"]
     version = schema["version"]
     migration_src = MIGRATIONS.read_text(encoding="utf-8")
     fixture_src = V1_FIXTURE.read_text(encoding="utf-8")
