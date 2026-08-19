@@ -125,6 +125,33 @@ jobs:
       # neither tracks nor restores it, and a cache-restored KSP task leaves app/schemas empty
       # even after a clean. Fatal, because the verifier below is useless without it — an earlier
       # revision made this non-fatal and the verifier then "passed" having compared nothing.
+      - name: Export Room schema
+        run: |
+          ./gradlew :app:kspDebugKotlin --rerun-tasks --console=plain
+          find app/schemas -type f -name '*.json' -print
+
+      - name: Upload Room schemas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: room-schemas
+          path: app/schemas/
+          if-no-files-found: error
+          retention-days: 30
+
+      # Uploaded even when a step above failed: the HTML/XML reports are how a compile error or
+      # a failed assertion gets diagnosed without re-running the job.
+      - name: Upload test and lint reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            app/build/reports/
+            app/build/test-results/
+          if-no-files-found: warn
+          retention-days: 14
+
       # Gradle prints no summary when a suite passes, so the only measured test count comes
       # from the JUnit XML. Reported here rather than asserted from a source-tree grep, and
       # fatal on a zero count or any skip: a suite that ran nothing, or that quietly disabled
@@ -156,33 +183,6 @@ jobs:
               print("FAIL: tests were skipped; the suite must not disable cases"); sys.exit(1)
           print(f"PASS: {total}/{total} tests passed, none skipped.")
           EOF
-
-      - name: Export Room schema
-        run: |
-          ./gradlew :app:kspDebugKotlin --rerun-tasks --console=plain
-          find app/schemas -type f -name '*.json' -print
-
-      - name: Upload Room schemas
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: room-schemas
-          path: app/schemas/
-          if-no-files-found: error
-          retention-days: 30
-
-      # Uploaded even when a step above failed: the HTML/XML reports are how a compile error or
-      # a failed assertion gets diagnosed without re-running the job.
-      - name: Upload test and lint reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: |
-            app/build/reports/
-            app/build/test-results/
-          if-no-files-found: warn
-          retention-days: 14
 
       # Deliberately the final step. It is still fatal — the run fails on any discrepancy or
       # if no schema can be found — but running last puts its table at the end of the log,
