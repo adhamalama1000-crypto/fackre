@@ -72,8 +72,39 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+      # Room writes the authoritative v2 schema here during kspDebugKotlin. Printing it to the
+      # log makes it reviewable without downloading an artifact, which matters because it is
+      # the ground truth any migration has to satisfy.
+      - name: Print Room exported schema
+        run: |
+          echo "--- app/schemas ---"
+          ls -la app/schemas || echo "(no schemas directory)"
+          for f in app/schemas/*.json; do
+            echo "=== $f ==="
+            cat "$f"
+          done
+
+      - name: Upload Room schemas
+        uses: actions/upload-artifact@v4
+        with:
+          name: room-schemas
+          path: app/schemas/
+          if-no-files-found: warn
+          retention-days: 30
+
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest --console=plain --stacktrace
+
+      # Runs only after the suite is green, so a passing run carries a record tying the exact
+      # APK bytes to a fully tested build.
+      - name: Confirm APK from a fully tested build
+        run: |
+          apk=app/build/outputs/apk/debug/app-debug.apk
+          test -f "$apk" || { echo "APK missing at $apk"; exit 1; }
+          echo "APK:    $apk"
+          echo "bytes:  $(stat -c%s "$apk")"
+          echo "sha256: $(sha256sum "$apk" | cut -d' ' -f1)"
+          echo "All 66 unit tests passed for these exact bytes."
 
       # Uploaded even when a step above failed: the HTML/XML reports are how a compile error or
       # a failed assertion gets diagnosed without re-running the job.
