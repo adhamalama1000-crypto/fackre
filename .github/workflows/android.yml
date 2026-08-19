@@ -11,7 +11,11 @@ name: Android CI
 # Runs on every push and pull request, and can be started by hand from the Actions tab.
 
 on:
+  # Branch pushes are covered by the pull_request trigger. Listing both unfiltered would build
+  # every PR twice, since a push and its PR merge ref are different refs and so land in
+  # different concurrency groups.
   push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
