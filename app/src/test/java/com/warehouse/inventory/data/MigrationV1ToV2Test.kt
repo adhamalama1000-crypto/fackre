@@ -39,6 +39,14 @@ import java.io.File
  * to columns the migration never touches. An earlier version of this file gave `categories` a
  * `createdAt` column that `CategoryEntity` does not declare, and Room rejected the whole
  * schema — every test in the class failed on a table the migration does not even alter.
+ *
+ * Why that was a fixture bug and not a migration bug, since the distinction decides whether
+ * real upgrades were at risk: the migration contains no reference to `categories`, so the
+ * table is byte-identical before and after it runs. v2 requires it to match `CategoryEntity`,
+ * and this release does not change that entity — therefore v1 required exactly the same
+ * columns. A v1 database with `createdAt` on `categories` could never have opened under v1
+ * either. The column was invented here and existed in no shipped version, so "fixing the
+ * migration" would have meant rebuilding a table to drop a column that is not in the field.
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33])

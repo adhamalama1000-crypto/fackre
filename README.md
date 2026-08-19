@@ -67,12 +67,18 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 ./gradlew testDebugUnitTest    # 66 unit tests; HTML report under app/build/reports/tests/
 ```
 
-> **Note on this delivery.** The environment this code was written in has no Android SDK and
-> its network policy blocks Google's Maven repository (`dl.google.com` returns HTTP 403), so
-> **no Gradle build or test run was executed here**. Everything below describes code that was
-> written and verified by static analysis (see [Testing](#testing)); the compile and the test
-> run are yours to perform with the commands above. Nothing in this README claims a build or
-> a test result that actually happened.
+> **Build status.** The project **compiles and all 66 unit tests pass**, verified by the
+> `Android CI` workflow on GitHub's runners
+> ([run 32272117923](https://github.com/adhamalama1000-crypto/fackre/actions/runs/32272117923),
+> commit `be1a5f9`): `assembleDebug` succeeded in about 4 minutes and `testDebugUnitTest`
+> reported no failures. Every push and pull request rebuilds and re-tests, and each run
+> uploads the debug APK as a downloadable `app-debug-apk` artifact — that is the quickest way
+> to get an installable build without a local Android SDK.
+>
+> The authoring environment itself cannot build this project: its egress policy denies
+> `dl.google.com`, which is the only host serving the Android Gradle Plugin, the
+> AndroidX/Compose/Room artifacts and the SDK (none are published to Maven Central). That is
+> why CI exists, and why CI — not this file — is the authority on build status.
 
 ---
 
@@ -471,9 +477,13 @@ needed to add this.
 
 Stated plainly rather than left to be discovered:
 
-- **No build or test run was executed** for this delivery — no Android SDK and Google's Maven
-  repository is blocked in the authoring environment. See the note under
-  [Build and run](#build-and-run).
+- **The build runs only in CI, not in the authoring environment**, which cannot reach
+  `dl.google.com`. This is not a limitation of the project — `assembleDebug` and all 66 tests
+  pass on GitHub's runners and will pass in Android Studio — but it does mean CI is where
+  build results come from. See the note under [Build and run](#build-and-run).
+- **No instrumented (on-device) tests.** The 66 tests are JVM/Robolectric unit tests. Camera
+  scanning, the SAF pickers, notification delivery and PDF Arabic shaping still need a real
+  device; see the manual checklist below.
 - **No device screenshots.** The SVGs in `docs/screenshots/` are design mockups of the
   **version 1.0** UI and are now outdated — they predate the Rasid branding, the redesigned
   dashboard and every new screen. They are kept only as history.

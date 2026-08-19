@@ -2,20 +2,27 @@
 
 **What was actually done, and what was not.**
 
-This project was extended in an environment with **no Android SDK** and a network policy that
-blocks Google's Maven repository (`dl.google.com` → HTTP 403). No Gradle invocation was
-therefore possible. Concretely:
+- ✅ **The project compiles.** `assembleDebug` succeeded in CI in ~4 min and produced a
+  31.1 MB `app-debug.apk`.
+- ✅ **All 66 unit tests pass.** `testDebugUnitTest` reported no failures.
+- ✅ **The tree was verified programmatically** before any compile was possible — the checks
+  are listed below, along with the six real defects they and CI found.
+- ❌ **No emulator or device was used.** There are no screenshots, and no instrumented tests.
+  Camera, SAF pickers, notification delivery and PDF Arabic shaping remain device-only.
 
-- ❌ **Nothing was compiled.** `assembleDebug` was never run.
-- ❌ **No test was executed.** The 66 unit tests described below were written, not run.
-- ❌ **No emulator or device was used.** There are no screenshots from this work.
-- ✅ **The tree was verified programmatically** — the checks are listed below, along with the
-  five real defects they found (four in the pre-existing code, one in code written during this
-  change).
+Verified by the `Android CI` workflow on GitHub's runners:
 
-Treat `./gradlew assembleDebug testDebugUnitTest` on your machine as the authoritative result.
-Where this document says "verified", it means verified by the static check named beside it, and
-nothing more.
+| Run | Commit | assembleDebug | Tests |
+|---|---|---|---|
+| [32270748862](https://github.com/adhamalama1000-crypto/fackre/actions/runs/32270748862) | `376c2c9` | ✅ SUCCESS | ❌ 59/66 — 7 failed |
+| [32272117923](https://github.com/adhamalama1000-crypto/fackre/actions/runs/32272117923) | `be1a5f9` | ✅ SUCCESS | ✅ 66/66 |
+
+The authoring environment could not build this project at all: its egress policy denies
+`dl.google.com`, the only host serving the Android Gradle Plugin, the AndroidX/Compose/Room
+artifacts and the SDK (AGP 8.7.2 and `androidx.core:core-ktx` both 404 on Maven Central, and
+`maven.google.com` 301-redirects every artifact to the denied host). `./gradlew assembleDebug`
+was run there and failed immediately on plugin resolution — which is why the CI workflow was
+added, and why CI is the authority on build status.
 
 ---
 
@@ -39,7 +46,7 @@ Scripted checks run over 101 main-source and 7 test-source Kotlin files.
 The AR/EN parity check is the one that guards a stated requirement directly: identical key sets
 mean no Arabic screen can fall back to an English string through a missing key.
 
-### Defects this found (all fixed)
+### Defects found and fixed
 
 1. **`LabeledDropdown`'s `label` / `secondaryLabel` were plain lambdas**, but
    `AdjustmentScreen` passed `{ stringResource(AdjustmentReasonLabels.stringRes(it)) }` into
@@ -63,13 +70,30 @@ navigation graph and destroyed the settings screen **before the restart dialog c
 leaving the user on a login screen backed by a closed database. The sign-out now happens in
 `finishRestore()`, ordered immediately before the process is replaced.
 
+A sixth came from CI rather than static analysis, and is the clearest argument for having it:
+`gradlew` was committed with mode `100644`, so `./gradlew` failed with `Permission denied` on
+any fresh clone. Nothing short of running the build would have caught that.
+
+CI also reported three deprecations, two of which were real RTL bugs rather than warnings:
+`Icons.Filled.Assignment` (audit log) and `Icons.Filled.FactCheck` (dashboard tile) have
+`AutoMirrored` variants, and the non-mirrored glyphs point the wrong way in an Arabic layout.
+Both now use the mirrored variants.
+
 ---
 
-## 2. Unit tests written (not run)
+## 2. Unit tests — 66 written, 66 passing
 
-66 tests in `app/src/test/java/com/warehouse/inventory/`. They run on the JVM via Robolectric
-so Room executes against **real SQLite**: the negative-stock guarantee is a guarded
+In `app/src/test/java/com/warehouse/inventory/`. They run on the JVM via Robolectric so Room
+executes against **real SQLite**: the negative-stock guarantee is a guarded
 `UPDATE … WHERE quantity >= :amount`, and only a real database proves it holds.
+
+The first CI run failed 7 of these, all in `MigrationV1ToV2Test`, all at `RoomOpenHelper:93` —
+Room's post-migration schema validation. The cause was in the test: its hand-written v1 DDL
+gave `categories` a `createdAt` column that `CategoryEntity` does not declare, so Room found an
+extra column and rejected the whole schema, failing every test in the class on a table the
+migration never touches. Diffing the migration's DDL against all nine entities confirmed the
+migration itself is correct — column sets match and every declared index is created — so real
+v1→v2 upgrades were never affected. Fixed in `be1a5f9`; the suite has been green since.
 
 ### `StockOperationsTest` — 17 tests
 
@@ -150,8 +174,8 @@ this part of the suite is fast.
 
 | Area | What to confirm |
 |---|---|
-| Compilation | `./gradlew assembleDebug`. Type inference, Compose compiler rules, KSP generation and Hilt graph resolution can only be confirmed by building. |
-| Test run | `./gradlew testDebugUnitTest`. |
+| ~~Compilation~~ | Done — `assembleDebug` passes in CI, including KSP, Hilt and the Compose compiler. |
+| ~~Test run~~ | Done — 66/66 pass in CI. |
 | Camera / scanner | Real barcode and QR labels, permission grant and denial, and the "code not found" path. Cannot be exercised without hardware. |
 | PDF Arabic shaping | The platform PDF writer handles the text; complex ligatures should be eyeballed in a real reader. |
 | CSV in Excel | Written UTF-8 with a BOM; confirm Arabic columns open correctly. |
@@ -193,4 +217,4 @@ this part of the suite is fast.
 | 23 | Security: hashing, permissions below the UI | Implemented + tested |
 | 24 | Room architecture, FKs, indexes, transactions, sync fields | Implemented + tested |
 | 25 | Data validation with Arabic messages | Implemented + tested |
-| 26 | Project inspection and tests | Static checks above; 66 tests written, **not run** |
+| 26 | Project inspection and tests | Static checks above; **66 tests written and passing in CI**, compile verified |

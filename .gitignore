@@ -9,3 +9,7 @@
 .cxx
 local.properties
 /app/build
+
+# Python bytecode from tools/ (the migration schema verifier). Generated, never source.
+__pycache__/
+*.pyc
