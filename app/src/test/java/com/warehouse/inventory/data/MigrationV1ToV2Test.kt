@@ -34,6 +34,11 @@ import java.io.File
  * succeeds: Room re-reads the schema with PRAGMA afterwards and throws
  * `IllegalStateException` if a single column, type, default or index differs from the
  * entities. Everything after that checks the data survived.
+ *
+ * That strictness cuts both ways: the v1 DDL below must match the v1 entities exactly, down
+ * to columns the migration never touches. An earlier version of this file gave `categories` a
+ * `createdAt` column that `CategoryEntity` does not declare, and Room rejected the whole
+ * schema — every test in the class failed on a table the migration does not even alter.
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33])
@@ -77,7 +82,7 @@ class MigrationV1ToV2Test {
             """
             CREATE TABLE `categories` (
                 `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                `name` TEXT NOT NULL, `createdAt` INTEGER NOT NULL,
+                `name` TEXT NOT NULL,
                 `syncId` TEXT NOT NULL, `updatedAt` INTEGER NOT NULL, `synced` INTEGER NOT NULL
             )
             """.trimIndent()
@@ -117,8 +122,8 @@ class MigrationV1ToV2Test {
 
         val now = 1_699_000_000_000L
         db.execSQL(
-            "INSERT INTO categories (name, createdAt, syncId, updatedAt, synced) " +
-                "VALUES ('مواد خام', $now, 'cat-1', $now, 0)"
+            "INSERT INTO categories (name, syncId, updatedAt, synced) " +
+                "VALUES ('مواد خام', 'cat-1', $now, 0)"
         )
         db.execSQL(
             """

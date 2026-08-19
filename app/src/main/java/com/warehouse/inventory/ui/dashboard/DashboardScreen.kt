@@ -24,7 +24,7 @@ import androidx.compose.material.icons.filled.AddBox
 import androidx.compose.material.icons.filled.Assessment
 import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.Category
-import androidx.compose.material.icons.filled.FactCheck
+import androidx.compose.material.icons.automirrored.filled.FactCheck
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Inventory2
@@ -212,7 +212,7 @@ fun DashboardScreen(
         MenuTile(stringResource(R.string.menu_suppliers), Icons.Filled.LocalShipping, Route.Suppliers.path, true),
         MenuTile(stringResource(R.string.menu_employees), Icons.Filled.Badge, Route.Employees.path, true),
         MenuTile(stringResource(R.string.menu_users), Icons.Filled.Group, Route.Users.path, true),
-        MenuTile(stringResource(R.string.menu_audit_log), Icons.Filled.FactCheck, Route.AuditLog.path, true),
+        MenuTile(stringResource(R.string.menu_audit_log), Icons.AutoMirrored.Filled.FactCheck, Route.AuditLog.path, true),
         MenuTile(stringResource(R.string.menu_settings), Icons.Filled.Settings, Route.Settings.path, false)
     ).filter { isAdmin || !it.adminOnly }
 

@@ -1,0 +1,85 @@
+name: Android CI
+
+# Builds the debug APK and runs the unit tests on GitHub's runners.
+#
+# This exists because the environment the code was authored in cannot build it: its egress
+# policy denies dl.google.com, which is the only host serving the Android Gradle Plugin, the
+# AndroidX/Compose/Room artifacts and the SDK itself (none of them are on Maven Central).
+# GitHub's runners have the SDK preinstalled and unrestricted access to Google's Maven, so
+# this workflow is the first place the project is actually compiled.
+#
+# Runs on every push and pull request, and can be started by hand from the Actions tab.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# Cancel an in-flight run when the same branch is pushed again, so a fast follow-up commit
+# does not queue behind a build that is already obsolete.
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build APK and run tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      # compileSdk 35 / build-tools 35.0.0 are what app/build.gradle.kts asks for. Installing
+      # them explicitly rather than relying on AGP's auto-download keeps the failure mode
+      # obvious if either version is ever bumped without updating this file.
+      - name: Install SDK platform 35
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # The committed file mode should already be 755, but a clone on a filesystem that drops
+      # the bit would otherwise fail here with "Permission denied" rather than a build error.
+      - name: Ensure gradlew is executable
+        run: chmod +x ./gradlew
+
+      # The APK is built before the tests so that a failing test still leaves a downloadable
+      # artifact — a broken assertion does not necessarily mean the app cannot be installed
+      # and looked at.
+      - name: Assemble debug APK
+        run: ./gradlew assembleDebug --console=plain --stacktrace
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest --console=plain --stacktrace
+
+      # Uploaded even when a step above failed: the HTML/XML reports are how a compile error or
+      # a failed assertion gets diagnosed without re-running the job.
+      - name: Upload test and lint reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            app/build/reports/
+            app/build/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
