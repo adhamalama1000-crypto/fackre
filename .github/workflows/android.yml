@@ -27,6 +27,15 @@ on:
   # has long-lived parallel branches.
   push:
   workflow_dispatch:
+    inputs:
+      cold:
+        description: >-
+          Disable the Gradle cache so everything is compiled from source. `clean` alone only
+          empties the output directory; the build cache then repopulates it, which can turn
+          assembleDebug into an 11-second no-op that proves the task graph runs but not that
+          the code still compiles.
+        type: boolean
+        default: false
 
 # Cancel an in-flight run when the same branch is pushed again, so a fast follow-up commit
 # does not queue behind a build that is already obsolete.
@@ -61,6 +70,8 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-disabled: ${{ github.event.inputs.cold == 'true' }}
 
       # The committed file mode should already be 755, but a clone on a filesystem that drops
       # the bit would otherwise fail here with "Permission denied" rather than a build error.
@@ -119,14 +130,6 @@ jobs:
           ./gradlew :app:kspDebugKotlin --rerun-tasks --console=plain
           find app/schemas -type f -name '*.json' -print
 
-      # Compares the migration against Room's exported schema: columns, affinities,
-      # nullability, defaults, primary keys, indices and foreign keys. Exits non-zero on any
-      # discrepancy AND when no schema can be found, so it cannot pass without comparing.
-      # Room's runtime validator enforces the same thing via MigrationV1ToV2Test, but reports
-      # only the first table it rejects; this names every discrepancy at once.
-      - name: Verify migration against Room's exported schema
-        run: python3 tools/verify_migration_schema.py
-
       - name: Upload Room schemas
         if: always()
         uses: actions/upload-artifact@v4
@@ -148,3 +151,14 @@ jobs:
             app/build/test-results/
           if-no-files-found: warn
           retention-days: 14
+
+      # Deliberately the final step. It is still fatal — the run fails on any discrepancy or
+      # if no schema can be found — but running last puts its table at the end of the log,
+      # where it can be read without hunting through artifact-upload chatter.
+      #
+      # Compares columns, affinities, nullability, defaults, primary keys, indices and foreign
+      # keys against Room's exported schema. Room's runtime validator enforces the same thing
+      # via MigrationV1ToV2Test, but reports only the first table it rejects; this names every
+      # discrepancy at once.
+      - name: Verify migration against Room's exported schema
+        run: python3 tools/verify_migration_schema.py
