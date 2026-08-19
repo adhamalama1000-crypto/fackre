@@ -100,18 +100,21 @@ jobs:
       # --rerun-tasks is required rather than wasteful. room.schemaLocation writes outside the
       # KSP task's declared outputs, so Gradle neither tracks nor restores it: on a cached
       # build kspDebugKotlin is up-to-date and app/schemas is simply absent.
-      - name: Export and print Room schema
+      - name: Export Room schema
         continue-on-error: true
         run: |
           ./gradlew :app:kspDebugKotlin --rerun-tasks --console=plain
-          if compgen -G "app/schemas/*.json" > /dev/null; then
-            for f in app/schemas/*.json; do
-              echo "=== $f ==="
-              cat "$f"
-            done
-          else
-            echo "no schema JSON produced under app/schemas"
-          fi
+          ls -la app/schemas || echo "(no schemas directory)"
+
+      # Compares the migration against Room's exported schema table by table and column by
+      # column, and fails on any discrepancy. Room's runtime validator already enforces this
+      # via MigrationV1ToV2Test, but only reports the first table it dislikes; this names all
+      # of them at once and reads as a summary rather than a stack trace.
+      #
+      # No-ops with a notice if the export step above could not produce a schema, so a
+      # caching quirk cannot masquerade as a migration defect.
+      - name: Verify migration matches Room's schema
+        run: python3 tools/verify_migration_schema.py
 
       - name: Upload Room schemas
         if: always()
