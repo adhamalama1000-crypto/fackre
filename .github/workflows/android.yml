@@ -79,26 +79,6 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      # Room writes the authoritative v2 schema here during kspDebugKotlin. Printing it to the
-      # log makes it reviewable without downloading an artifact, which matters because it is
-      # the ground truth any migration has to satisfy.
-      - name: Print Room exported schema
-        run: |
-          echo "--- app/schemas ---"
-          ls -la app/schemas || echo "(no schemas directory)"
-          for f in app/schemas/*.json; do
-            echo "=== $f ==="
-            cat "$f"
-          done
-
-      - name: Upload Room schemas
-        uses: actions/upload-artifact@v4
-        with:
-          name: room-schemas
-          path: app/schemas/
-          if-no-files-found: warn
-          retention-days: 30
-
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest --console=plain --stacktrace
 
@@ -112,6 +92,35 @@ jobs:
           echo "bytes:  $(stat -c%s "$apk")"
           echo "sha256: $(sha256sum "$apk" | cut -d' ' -f1)"
           echo "All 66 unit tests passed for these exact bytes."
+
+      # Diagnostic only, and deliberately last and non-fatal: an informational step must never
+      # be able to fail the build or skip the tests, which is exactly what happened when this
+      # ran before them.
+      #
+      # --rerun-tasks is required rather than wasteful. room.schemaLocation writes outside the
+      # KSP task's declared outputs, so Gradle neither tracks nor restores it: on a cached
+      # build kspDebugKotlin is up-to-date and app/schemas is simply absent.
+      - name: Export and print Room schema
+        continue-on-error: true
+        run: |
+          ./gradlew :app:kspDebugKotlin --rerun-tasks --console=plain
+          if compgen -G "app/schemas/*.json" > /dev/null; then
+            for f in app/schemas/*.json; do
+              echo "=== $f ==="
+              cat "$f"
+            done
+          else
+            echo "no schema JSON produced under app/schemas"
+          fi
+
+      - name: Upload Room schemas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: room-schemas
+          path: app/schemas/
+          if-no-files-found: warn
+          retention-days: 30
 
       # Uploaded even when a step above failed: the HTML/XML reports are how a compile error or
       # a failed assertion gets diagnosed without re-running the job.
