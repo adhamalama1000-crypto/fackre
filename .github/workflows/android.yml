@@ -11,12 +11,19 @@ name: Android CI
 # Runs on every push and pull request, and can be started by hand from the Actions tab.
 
 on:
-  # Branch pushes are covered by the pull_request trigger. Listing both unfiltered would build
-  # every PR twice, since a push and its PR merge ref are different refs and so land in
-  # different concurrency groups.
+  # Push only, deliberately, on every branch.
+  #
+  # Restricting push to main and relying on pull_request instead built each PR commit once
+  # rather than twice, but it left a worse hole: a branch pushed while no PR is open got no
+  # build at all. That happened here — two commits landed unverified after a PR merged.
+  # Unverified commits cost more than duplicate runner minutes, and dropping pull_request
+  # gets both properties, since GitHub attaches a push run's checks to the head SHA and so
+  # still reports status on any PR for that branch.
+  #
+  # The one thing given up is building the PR *merge* result, which would catch a green
+  # branch that conflicts semantically with a moved main. Worth revisiting if this repo ever
+  # has long-lived parallel branches.
   push:
-    branches: [main]
-  pull_request:
   workflow_dispatch:
 
 # Cancel an in-flight run when the same branch is pushed again, so a fast follow-up commit
