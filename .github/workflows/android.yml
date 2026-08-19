@@ -1,14 +1,16 @@
 name: Android CI
 
-# Builds the debug APK and runs the unit tests on GitHub's runners.
+# Builds the debug APK and runs the full unit-test suite from a clean state.
 #
-# This exists because the environment the code was authored in cannot build it: its egress
+# This exists because the environment the code is authored in cannot build it: its egress
 # policy denies dl.google.com, which is the only host serving the Android Gradle Plugin, the
-# AndroidX/Compose/Room artifacts and the SDK itself (none of them are on Maven Central).
-# GitHub's runners have the SDK preinstalled and unrestricted access to Google's Maven, so
-# this workflow is the first place the project is actually compiled.
+# AndroidX/Compose/Room artifacts and the SDK itself (none are published to Maven Central).
+# GitHub's runners have the SDK and unrestricted access to Google's Maven, so this workflow is
+# where the project is actually compiled and tested.
 #
-# Runs on every push and pull request, and can be started by hand from the Actions tab.
+# Every step fails closed. There is deliberately no `continue-on-error` anywhere: a step that
+# cannot do its job must fail the run rather than report success, which is why the schema
+# verifier exits non-zero when it finds no schema to compare instead of passing vacuously.
 
 on:
   # Push only, deliberately, on every branch.
@@ -65,11 +67,36 @@ jobs:
       - name: Ensure gradlew is executable
         run: chmod +x ./gradlew
 
+      - name: Report toolchain versions
+        run: |
+          java -version
+          ./gradlew --version --console=plain
+          echo "ANDROID_HOME=$ANDROID_HOME"
+
+      - name: Clean
+        run: ./gradlew clean --console=plain
+
       # The APK is built before the tests so that a failing test still leaves a downloadable
       # artifact — a broken assertion does not necessarily mean the app cannot be installed
-      # and looked at.
+      # and looked at. The run still fails if the suite fails.
       - name: Assemble debug APK
-        run: ./gradlew assembleDebug --console=plain --stacktrace
+        run: ./gradlew assembleDebug --stacktrace --console=plain
+
+      # Proves an APK was really produced rather than that a path exists: an empty or truncated
+      # file passes a bare `test -f`, so the archive is opened and required to contain both a
+      # dex and a manifest.
+      - name: Verify the APK is a real APK
+        run: |
+          apk=app/build/outputs/apk/debug/app-debug.apk
+          test -f "$apk" || { echo "FAIL: no APK at $apk"; exit 1; }
+          bytes=$(stat -c%s "$apk")
+          echo "APK:    $apk"
+          echo "bytes:  $bytes"
+          echo "sha256: $(sha256sum "$apk" | cut -d' ' -f1)"
+          test "$bytes" -gt 1000000 || { echo "FAIL: APK implausibly small"; exit 1; }
+          unzip -l "$apk" | grep -q 'classes.dex' || { echo "FAIL: no classes.dex in APK"; exit 1; }
+          unzip -l "$apk" | grep -q 'AndroidManifest.xml' || { echo "FAIL: no manifest in APK"; exit 1; }
+          echo "APK contains classes.dex and AndroidManifest.xml."
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
@@ -80,40 +107,24 @@ jobs:
           retention-days: 30
 
       - name: Run unit tests
-        run: ./gradlew testDebugUnitTest --console=plain --stacktrace
+        run: ./gradlew testDebugUnitTest --stacktrace --console=plain
 
-      # Runs only after the suite is green, so a passing run carries a record tying the exact
-      # APK bytes to a fully tested build.
-      - name: Confirm APK from a fully tested build
-        run: |
-          apk=app/build/outputs/apk/debug/app-debug.apk
-          test -f "$apk" || { echo "APK missing at $apk"; exit 1; }
-          echo "APK:    $apk"
-          echo "bytes:  $(stat -c%s "$apk")"
-          echo "sha256: $(sha256sum "$apk" | cut -d' ' -f1)"
-          echo "All 66 unit tests passed for these exact bytes."
-
-      # Diagnostic only, and deliberately last and non-fatal: an informational step must never
-      # be able to fail the build or skip the tests, which is exactly what happened when this
-      # ran before them.
-      #
-      # --rerun-tasks is required rather than wasteful. room.schemaLocation writes outside the
-      # KSP task's declared outputs, so Gradle neither tracks nor restores it: on a cached
-      # build kspDebugKotlin is up-to-date and app/schemas is simply absent.
+      # Room writes the exported schema during KSP. --rerun-tasks is required rather than
+      # wasteful: room.schemaLocation writes outside the KSP task's declared outputs, so Gradle
+      # neither tracks nor restores it, and a cache-restored KSP task leaves app/schemas empty
+      # even after a clean. Fatal, because the verifier below is useless without it — an earlier
+      # revision made this non-fatal and the verifier then "passed" having compared nothing.
       - name: Export Room schema
-        continue-on-error: true
         run: |
           ./gradlew :app:kspDebugKotlin --rerun-tasks --console=plain
-          ls -la app/schemas || echo "(no schemas directory)"
+          find app/schemas -type f -name '*.json' -print
 
-      # Compares the migration against Room's exported schema table by table and column by
-      # column, and fails on any discrepancy. Room's runtime validator already enforces this
-      # via MigrationV1ToV2Test, but only reports the first table it dislikes; this names all
-      # of them at once and reads as a summary rather than a stack trace.
-      #
-      # No-ops with a notice if the export step above could not produce a schema, so a
-      # caching quirk cannot masquerade as a migration defect.
-      - name: Verify migration matches Room's schema
+      # Compares the migration against Room's exported schema: columns, affinities,
+      # nullability, defaults, primary keys, indices and foreign keys. Exits non-zero on any
+      # discrepancy AND when no schema can be found, so it cannot pass without comparing.
+      # Room's runtime validator enforces the same thing via MigrationV1ToV2Test, but reports
+      # only the first table it rejects; this names every discrepancy at once.
+      - name: Verify migration against Room's exported schema
         run: python3 tools/verify_migration_schema.py
 
       - name: Upload Room schemas
@@ -122,7 +133,7 @@ jobs:
         with:
           name: room-schemas
           path: app/schemas/
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 30
 
       # Uploaded even when a step above failed: the HTML/XML reports are how a compile error or
@@ -135,5 +146,5 @@ jobs:
           path: |
             app/build/reports/
             app/build/test-results/
-          if-no-files-found: ignore
+          if-no-files-found: warn
           retention-days: 14
